@@ -1,11 +1,12 @@
 {
   "name": "95",
   "version": "1.0.0",
-  "description": "Back-End for CE-AUT's graduation site",
+  "description": "Back-End for CE-AUT's 95ers' graduation site",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/theerfan/95-Grad-Backend.git"
