@@ -1,0 +1,19 @@
+{
+  "name": "95",
+  "version": "1.0.0",
+  "description": "Back-End for CE-AUT's graduation site",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theerfan/95-Grad-Backend.git"
+  },
+  "author": "Erfan Abedi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theerfan/95-Grad-Backend/issues"
+  },
+  "homepage": "https://github.com/theerfan/95-Grad-Backend#readme"
+}
