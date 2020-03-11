@@ -4,17 +4,25 @@
   "description": "Back-End for CE-AUT's 95ers' graduation site",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/app.ts"
   },
   "dependencies": {
+    "@koa/multer": "^2.0.2",
     "@typegoose/typegoose": "^6.4.0",
     "@types/koa": "^2.11.2",
     "@types/koa-cors": "0.0.0",
     "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.0",
     "@types/mongoose": "^5.7.5",
     "@types/node": "^13.9.0",
+    "@types/passport": "^1.0.3",
+    "@types/passport-jwt": "^3.0.3",
+    "apollo-server": "^2.11.0",
     "apollo-server-koa": "^2.11.0",
+    "apollo-server-types": "^0.3.0",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
@@ -25,10 +33,11 @@
     "koa-logger": "^3.2.1",
     "mongoose": "^5.9.4",
     "mongoose-long": "^0.2.1",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
+    "sharp": "^0.25.1",
     "ts-node": "^8.6.2",
-    "typegoose": "^5.9.1",
     "typescript": "^3.8.3"
   },
   "repository": {

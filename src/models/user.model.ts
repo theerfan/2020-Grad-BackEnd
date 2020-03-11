@@ -1,5 +1,8 @@
-import { prop, buildSchema } from '@typegoose/typegoose';
-const trim = { trim: true };
+import { prop, getModelForClass, Ref, arrayProp } from '@typegoose/typegoose';
+import { trim } from '../constants/trim';
+import { Image } from './image.model';
+import { Vote } from './vote.model';
+import { Answer } from './answer.model';
 
 export class User {
 
@@ -30,6 +33,9 @@ export class User {
     @prop(trim)
     public quote?: string;
 
+    @prop({ ref: "Image" })
+    public profilePicture?: Ref<Image>;
+
     @prop(trim)
     public GithubURL?: string;
 
@@ -45,8 +51,8 @@ export class User {
     @prop({ unique: true, trim: true })
     public AutMail?: string;
 
-    @prop(trim)
-    public OtherMails: [string];
+    @arrayProp({ items: String })
+    public OtherMails?: string[];
 
     @prop({ default: false })
     public isGraduating?: boolean;
@@ -57,10 +63,21 @@ export class User {
     @prop(trim)
     public favoritePlace?: string;
 
+    @arrayProp({ itemsRef: Vote, default: [] })
+    public votesCast!: Ref<Vote>[];
+
+    @arrayProp({ itemsRef: "Answer", default: [] })
+    public answersGiven!: Ref<Answer>;
+
 }
 
-const UserSchema = buildSchema(User);
-UserSchema.static('findOneOrCreate', async function findOneOrCreate(this: any, conditions: any, doc: any) {
-    const one = await this.findOne(conditions)
-    return one || await this.create(doc);
-})
+
+export const UserModel = getModelForClass(User);
+
+// const UserSchema = buildSchema(User);
+// UserSchema.static('findOneOrCreate', async function findOneOrCreate(this: any, conditions: any, doc: any) {
+//     const one = await this.findOne(conditions)
+//     return one || await this.create(doc);
+// });
+
+// export const UserModel = addModelToTypegoose(mongoose.model('User', UserSchema), User);

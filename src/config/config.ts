@@ -5,7 +5,7 @@ export const config = {
     db: {
         mongo: {
             connectionString: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017/alumni',
-            connectionPoolSize: process.env.MONGO_CONNECTION_POOL_SIZE || 5
+            connectionPoolSize: Number(process.env.MONGO_CONNECTION_POOL_SIZE) || 5
         }
     },
     oauth: {
