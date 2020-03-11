@@ -7,7 +7,7 @@
     "max-classes-per-file": false,
     "semicolon": [false, "never"],
     "ordered-imports": false,
-    "no-console": false,
+    "no-console": false
   },
   "rulesDirectory": [],
   "exclude": ["config/**/*.js", "node_modules/**/*.ts"]

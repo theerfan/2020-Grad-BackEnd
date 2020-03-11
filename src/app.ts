@@ -1,25 +1,16 @@
 import * as Koa from 'koa';
 import { middlewares } from './middlewares/middlewares';
-import { ApolloServer, gql } from 'apollo-server-koa';
-
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-// Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-};
+import { ApolloServer } from 'apollo-server-koa';
+import { typeDefs } from './graphql/typedefs/query';
+import { resolvers } from './graphql/resolvers/resolver';
 
 const app = new Koa();
 
 app.use(middlewares());
 
 const server = new ApolloServer({ typeDefs, resolvers });
+
+server.setGraphQLPath("/graphql");
 
 app.use(server.getMiddleware());
 

@@ -10,5 +10,6 @@ export function middlewares() {
         logger(),
         cors(),
         bodyParser(),
+        // jwt({secret: "temp-secret"}).unless({path: [/^\/admin/]})
     ]);
 };
