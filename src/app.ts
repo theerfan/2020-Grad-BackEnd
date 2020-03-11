@@ -16,8 +16,6 @@ app.listen({ port: 4000 }, () =>
   console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
 );
 
-// Put this here for ssh test push
-
 
  export default app;
 
