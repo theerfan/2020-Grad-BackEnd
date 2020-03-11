@@ -1,11 +1,9 @@
-import {plugin, prop, Typegoose, staticMethod, instanceMethod} from 'typegoose';
+import { prop, buildSchema } from '@typegoose/typegoose';
+const trim = { trim: true };
 
-const trim = {trim:true};
+export class User {
 
-@plugin('mongoose-long')
-class User extends Typegoose {
-
-    @prop({unique: true, required: true, trim:true})
+    @prop({ unique: true, required: true, trim: true })
     public studentName!: string;
 
     @prop(trim)
@@ -44,25 +42,25 @@ class User extends Typegoose {
     @prop(trim)
     public TwitterURL?: string;
 
-    @prop({unique: true, trim: true})
+    @prop({ unique: true, trim: true })
     public AutMail?: string;
 
     @prop(trim)
     public OtherMails: [string];
 
-    // TODO: Separate Admin from user!
-    @prop({default: false})
-    public isAdmin?: boolean;
-
-    @prop({default: false})
+    @prop({ default: false })
     public isGraduating?: boolean;
 
-    @prop({default: false})
+    @prop({ default: false })
     public profileCompleted?: boolean;
 
     @prop(trim)
     public favoritePlace?: string;
+
 }
 
-
-export const UserModel = new User().getModelForClass(User);
+const UserSchema = buildSchema(User);
+UserSchema.static('findOneOrCreate', async function findOneOrCreate(this: any, conditions: any, doc: any) {
+    const one = await this.findOne(conditions)
+    return one || await this.create(doc);
+})
