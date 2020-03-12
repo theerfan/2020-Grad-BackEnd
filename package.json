@@ -5,7 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/app.ts"
+    "start": "ts-node src/app.ts",
+    "dev": "ts-node-dev --no-notify --respawn --transpileOnly src/app.ts"
   },
   "dependencies": {
     "@koa/multer": "^2.0.2",
@@ -34,10 +35,13 @@
     "mongoose": "^5.9.4",
     "mongoose-long": "^0.2.1",
     "multer": "^1.4.2",
-    "nodemon": "^2.0.2",
     "passport": "^0.4.1",
-    "sharp": "^0.25.1",
+    "sharp": "^0.25.1"
+  },
+  "devDependencies": {
     "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
   },
   "repository": {
@@ -49,8 +53,5 @@
   "bugs": {
     "url": "https://github.com/theerfan/95-Grad-Backend/issues"
   },
-  "homepage": "https://github.com/theerfan/95-Grad-Backend#readme",
-  "devDependencies": {
-    "tslint-config-prettier": "^1.18.0"
-  }
+  "homepage": "https://github.com/theerfan/95-Grad-Backend#readme"
 }

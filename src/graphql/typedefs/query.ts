@@ -12,7 +12,7 @@ type Book {
 type Image {
   path: String
   alternateText: String
-  hasThumbnail: Boolean;
+  hasThumbnail: Boolean
 }
 
 # The "Query" type is special: it lists all of the available queries that

@@ -9,7 +9,7 @@ const app = new Koa();
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-// The order is important, otherwise the graphql server won't work!
+// The order is important, otherwise cors breaks it and the graphql server won't work!
 app.use(server.getMiddleware());
 app.use(middlewares());
 
