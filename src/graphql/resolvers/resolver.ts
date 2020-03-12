@@ -1,6 +1,7 @@
+import {books} from "../testdata/books";
 
 export const resolvers = {
-    Query: {
-      hello: () => 'Hello world!',
-    },
-  };
+  Query: {
+    books: () => books,
+  },
+};
