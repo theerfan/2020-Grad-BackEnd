@@ -20,6 +20,9 @@ export const ImageModel = getModelForClass(Image, {
     existingConnection: db
 });
 
+// Check to see if Typegoose was the problem.
+// Spoiler alert: it wasn't. 
+
 // import * as mongoose from "mongoose";
 
 // export interface Image extends mongoose.Document {

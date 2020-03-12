@@ -12,7 +12,6 @@ export async function addImage({
     hasThumbnail
 }: CreateImageInput): Promise<Image | Error> {
     try {
-        console.log(ImageModel)
         const data = await ImageModel.create({
             path,
             alternateText,
