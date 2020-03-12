@@ -1,6 +1,6 @@
 import { prop, getModelForClass } from '@typegoose/typegoose';
 import { trim } from '../constants/trim';
-import { db } from '../database/connect';
+import { db, mongoose } from '../database/connect';
 
 export class Image {
 
@@ -16,6 +16,7 @@ export class Image {
 }
 
 export const ImageModel = getModelForClass(Image, {
+    existingMongoose: mongoose,
     existingConnection: db
 });
 
