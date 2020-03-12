@@ -7,8 +7,8 @@ export class Answer {
 
     @prop(trim)
     public text!: string;
-    
-    @prop({ref: "Question"})
+
+    @prop({ ref: "Question" })
     public question: Ref<Question>;
 }
 

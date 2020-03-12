@@ -4,8 +4,10 @@ dotenv.config();
 export const config = {
     db: {
         mongo: {
-            connectionString: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017/alumni',
-            connectionPoolSize: Number(process.env.MONGO_CONNECTION_POOL_SIZE) || 5
+            connectionString: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017/grad',
+            connectionPoolSize: Number(process.env.MONGO_CONNECTION_POOL_SIZE) || 5,
+            connectionUser: process.env.MONGO_USER || "john",
+            connectionPassword: process.env.MONGO_PASSOWRD || "passowrd"
         }
     },
     oauth: {

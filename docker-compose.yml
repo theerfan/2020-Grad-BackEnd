@@ -8,22 +8,27 @@ services:
   #   ports:
   #     - 80:80
       
-  api:
-    build: .
-    env_file:
-      - .env
-    # volumes:
-    #   - ./static:/storage
-    depends_on: 
-      - mongodb
-    links:
-      - mongodb
+  # api:
+  #   build: .
+  #   env_file:
+  #     - .env
+  #   # volumes:
+  #   #   - ./static:/storage
+  #   depends_on: 
+  #     - mongodb
+  #   links:
+  #     - mongodb
+  #   restart: on-failure
 
   mongodb:
-    image: bitnami/mongodb:4.2.4
+    image: mongo:4.2.0
     volumes:
       - mongodata:/data/db
     ports:
       - 27107:27017
+    # environment: 
+    #   - MONGO_INITDB_ROOT_USERNAME=john
+    #   - MONGO_INITDB_ROOT_PASSWORD=password
+    #   - MONGO_INITDB_DATABASE=grad
 volumes:
   mongodata:

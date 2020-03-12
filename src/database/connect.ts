@@ -7,7 +7,11 @@ const db = mongoose.createConnection(
     dbConfig.connectionString,
     {
         useNewUrlParser: true,
-        poolSize: dbConfig.connectionPoolSize
+        poolSize: dbConfig.connectionPoolSize,
+        // w: 1,
+        // authSource: 'grad',
+        // user: dbConfig.connectionUser,
+        // pass: dbConfig.connectionPassword
     }
 )
 

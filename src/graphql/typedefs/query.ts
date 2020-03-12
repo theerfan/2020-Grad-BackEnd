@@ -19,6 +19,17 @@ type Image {
 # clients can execute, along with the return type for each. In this
 # case, the "books" query returns an array of zero or more Books (defined above).
 type Query {
-  books: [Image]
+  images: [Image]
+  books: [Book]
+}
+
+input CreateImageInput {
+  path: String
+  alternateText: String
+  hasThumbnail: Boolean
+}
+
+type Mutation {
+  addImage(input: CreateImageInput): Image
 }
 `;

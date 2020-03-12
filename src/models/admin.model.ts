@@ -1,4 +1,5 @@
 import { prop, getModelForClass } from '@typegoose/typegoose';
+import { db } from '../database/connect';
 
 class Admin {
     @prop()
@@ -8,4 +9,6 @@ class Admin {
     public password: string;
 }
 
-export const AdminModel = getModelForClass(Admin);
+export const AdminModel = getModelForClass(Admin, {
+    existingConnection: db
+});
