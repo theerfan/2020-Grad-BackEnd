@@ -1,9 +1,12 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
-import { trim } from '../constants/trim';
+import { prop as Property, getModelForClass } from '@typegoose/typegoose';
+import { trim } from '../constants/typeql';
+import { ObjectType, Field } from "type-graphql";
 
+@ObjectType()
 export class Question {
-    @prop(trim)
-    public phrase: string;
+    @Field()
+    @Property(trim)
+    public phrase!: string;
 }
 
 export const QuestionModel = getModelForClass(Question);

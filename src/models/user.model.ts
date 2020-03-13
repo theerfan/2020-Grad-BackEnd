@@ -1,24 +1,25 @@
-import { prop, Ref, arrayProp } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty } from '@typegoose/typegoose';
 import { Vote } from './vote.model';
-import { trim } from '../constants/trim';
 import { Image } from './image.model';
+import {ObjectType, Field} from "type-graphql";
 
-
+@ObjectType()
 export abstract class User {
 
-    @prop(trim)
-    public firstName?: string;
+    @Field()
+    @Property({trim: true, default: ""})
+    public firstName!: string;
 
-    @prop(trim)
-    public lastName?: string;
+    @Field()
+    @Property({trim: true, default: ""})
+    public lastName!: string;
 
-    @prop({trim: true, default: ""})
-    public primaryEmail!: string;
-
-    @arrayProp({ itemsRef: Vote, default: [] })
+    @Field(type => [Vote])
+    @arrayProperty({ itemsRef: Vote, default: [] })
     public votesCast!: Ref<Vote>[];
 
-    @prop({ ref: "Image" })
+    @Field(type => Image!)
+    @Property({ ref: "Image" })
     public profilePicture?: Ref<Image>;
 
 }

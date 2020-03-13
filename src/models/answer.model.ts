@@ -1,15 +1,19 @@
-import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
-import { trim } from '../constants/trim';
+import { prop as Property, getModelForClass, Ref } from '@typegoose/typegoose';
+import { trim } from '../constants/typeql';
 import { Question } from './question.model';
 import { db } from '../database/connect';
+import {ObjectType, Field} from "type-graphql";
 
+@ObjectType()
 export class Answer {
 
-    @prop(trim)
+    @Field()
+    @Property(trim)
     public text!: string;
 
-    @prop({ ref: "Question" })
-    public question: Ref<Question>;
+    @Field(type => Question)
+    @Property({ ref: "Question", required: true })
+    public question!: Ref<Question>;
 }
 
 export const AnswerModel = getModelForClass(Answer, {

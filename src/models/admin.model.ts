@@ -1,12 +1,16 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass } from '@typegoose/typegoose';
 import { db } from '../database/connect';
+import {ObjectType, Field} from "type-graphql";
 
+@ObjectType()
 class Admin {
-    @prop()
-    public username: string;
+    @Field()
+    @Property({trim: true, unique: true, required: true})
+    public username!: string;
 
-    @prop()
-    public password: string;
+    @Field()
+    @Property({required: true})
+    public password!: string;
 }
 
 export const AdminModel = getModelForClass(Admin, {

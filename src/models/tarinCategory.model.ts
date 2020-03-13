@@ -1,8 +1,11 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass } from '@typegoose/typegoose';
 import { db } from '../database/connect';
+import { ObjectType, Field } from "type-graphql";
 
+@ObjectType()
 export class TarinCategory {
-    @prop()
+    @Field()
+    @Property()
     public title: string;
 }
 

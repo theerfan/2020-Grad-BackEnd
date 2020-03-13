@@ -9,32 +9,34 @@ import { buildSchema } from 'type-graphql';
 
 const app = new Koa();
 
-(async () => {
-  const schema = await buildSchema({
-    resolvers: [ImageResolver],
-    authChecker,
-    authMode: "null"
-  })
+async function main() {
+    const schema = await buildSchema({
+        resolvers: [ImageResolver],
+        authChecker,
+        authMode: "null",
 
-  const server = new ApolloServer({
-    schema,
-    context: (ctx: Koa.Context) => ({
-      ctx,
-      req: ctx.request
     })
-  });
 
-  // The order is important, otherwise cors breaks it and the graphql server won't work!
-  app.use(server.getMiddleware());
-  app.use(middlewares());
+    const server = new ApolloServer({
+        schema,
+        context: (ctx: Koa.Context) => ({
+            ctx,
+            req: ctx.request
+        })
+    });
+
+    // The order is important, otherwise cors breaks it and the graphql server won't work!
+    app.use(server.getMiddleware());
+    app.use(middlewares());
 
 
-  app.listen({ port: 4000 }, () =>
-    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
-  );
+    app.listen({ port: 4000 }, () =>
+        console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
+    );
 
 
-})();
+}
+
 
 export default app;
 

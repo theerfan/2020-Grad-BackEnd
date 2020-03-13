@@ -1,22 +1,21 @@
-import { prop, getModelForClass } from '@typegoose/typegoose';
-import { trim, nullableTrim } from '../constants/trim';
+import { prop as Property , getModelForClass } from '@typegoose/typegoose';
+import { trim, nullable } from '../constants/typeql';
 import { db } from '../database/connect';
-import {ObjectType, Field, Authorized} from "type-graphql";
+import {ObjectType, Field} from "type-graphql";
 
 @ObjectType()
 export class Image {
 
-    @Authorized()
     @Field()
-    @prop(trim)
+    @Property(trim)
     public path!: string;
 
-    @Field({nullable: true})
-    @prop(nullableTrim)
+    @Field(nullable)
+    @Property(trim)
     public alternateText?: string;
 
-    @Field({nullable: true})
-    @prop({ default: false })
+    @Field(nullable)
+    @Property({ default: false })
     public hasThumbnail: boolean;
 
 }

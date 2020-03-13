@@ -1,60 +1,81 @@
-import { prop, Ref, arrayProp, buildSchema, addModelToTypegoose } from '@typegoose/typegoose';
-import { trim } from '../constants/trim';
+import { prop as Property, Ref, arrayProp as arrayProperty, buildSchema, addModelToTypegoose } from '@typegoose/typegoose';
+import { trim, nullable } from '../constants/typeql';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
-import {User} from './user.model';
-import {findOneOrCreate} from './helperFunctions/findoneorcreate';
+import { User } from './user.model';
+import { findOneOrCreate } from './helperFunctions/findoneorcreate';
+import { ObjectType, Field } from "type-graphql";
 
+@ObjectType()
 export class AutUser extends User {
 
-    @prop({ unique: true, required: true, trim: true })
+    @Field()
+    @Property({ unique: true, required: true, trim: true })
     public studentNumber!: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public birthday?: Date;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public birthPlace?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public phone?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public bio?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public quote?: string;
 
-
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public GithubURL?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public InstagramURL?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public LinkedInURL?: string;
 
-    @prop(trim)
+    @Field(nullable)
+    @Property(trim)
     public TwitterURL?: string;
 
-    @prop({ unique: true, trim: true })
-    public AutMail?: string;
+    @Field()
+    @Property({ unique: true, trim: true, required: true })
+    public AutMail!: string;
 
-    @prop({ default: false })
+    @Field()
+    @Property({ default: false })
     public isGraduating?: boolean;
 
-    @prop({ default: false })
-    public profileCompleted?: boolean;
+    // @Field()
+    // @Property({ default: false })
+    // public profileCompleted?: boolean;
 
-    @prop(trim)
-    public favoritePlace?: string;
+    // @Field()
+    // @Property(trim)
+    // public favoritePlace?: string;
 
-    @arrayProp({ itemsRef: Vote, default: [] })
+    @Field()
+    @Property({ required: true, default: false })
+    public isAdmin!: boolean;
+
+    @Field(type => [Vote])
+    @arrayProperty({ itemsRef: Vote, default: [], required: true })
     public votesCast!: Ref<Vote>[];
 
-    @arrayProp({ itemsRef: "Answer", default: [] })
+    @Field(type => [Answer])
+    @arrayProperty({ itemsRef: "Answer", default: [], required: true })
     public answersGiven!: Ref<Answer>;
 
 }

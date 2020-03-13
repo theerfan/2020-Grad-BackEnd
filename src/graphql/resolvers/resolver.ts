@@ -19,7 +19,6 @@ export class ImageResolver {
       hasThumbnail
     });
     console.log(newImage);
-    // this.booksData.push(newImage);
     return newImage;
   }
 
@@ -29,14 +28,3 @@ export class ImageResolver {
     return await ImageModel.find({});
   }
 }
-
-// export const resolvers = {
-//   Query: {
-//     books: () => books,
-//   },
-
-//   Mutation: {
-//     addImage: (_: null, { input }: { input: CreateImageInput }) =>
-//       addImage({ ...input }),
-//   },
-// };
