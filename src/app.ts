@@ -2,7 +2,7 @@ import * as Koa from 'koa';
 import { middlewares } from './middlewares/middlewares';
 import { ApolloServer } from 'apollo-server-koa';
 // import { typeDefs } from './graphql/typedefs/query';
-import { ImageResolver } from './graphql/resolvers/resolver';
+// import { ImageResolver } from './graphql/resolvers/sampleResolver';
 import { authChecker } from './graphql/authCheckers/authcheckers';
 import { buildSchema } from 'type-graphql';
 
@@ -11,10 +11,9 @@ const app = new Koa();
 
 async function main() {
     const schema = await buildSchema({
-        resolvers: [ImageResolver],
+        resolvers: [],
         authChecker,
         authMode: "null",
-
     })
 
     const server = new ApolloServer({
@@ -37,6 +36,7 @@ async function main() {
 
 }
 
+main();
 
 export default app;
 
