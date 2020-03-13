@@ -1,6 +1,7 @@
 import { prop, Ref, arrayProp } from '@typegoose/typegoose';
 import { Vote } from './vote.model';
 import { trim } from '../constants/trim';
+import { Image } from './image.model';
 
 
 export abstract class User {
@@ -16,5 +17,8 @@ export abstract class User {
 
     @arrayProp({ itemsRef: Vote, default: [] })
     public votesCast!: Ref<Vote>[];
+
+    @prop({ ref: "Image" })
+    public profilePicture?: Ref<Image>;
 
 }

@@ -6,11 +6,11 @@ export interface CreateImageInput {
     hasThumbnail: boolean
 }
 
-export async function addImage({
+export async function createNewImage({
     path,
     alternateText,
     hasThumbnail
-}: CreateImageInput): Promise<Image | Error> {
+}: CreateImageInput): Promise<Image | undefined> {
     try {
         const data = await ImageModel.create({
             path,
@@ -20,6 +20,8 @@ export async function addImage({
         return data;
     }
     catch (error) {
-        throw error;
+        return;
+        // return new Promise(Image)
+        // throw error;
     }
 }

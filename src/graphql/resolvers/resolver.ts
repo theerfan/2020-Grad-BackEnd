@@ -1,13 +1,42 @@
-import { books } from '../testdata/books';
-import { addImage, CreateImageInput } from '../../controllers/image.controller';
+import { createNewImage } from '../../controllers/image.controller';
+import { Resolver, Authorized, Mutation, Arg, Query } from 'type-graphql';
+import { Image, ImageModel } from '../../models/image.model';
 
-export const resolvers = {
-  Query: {
-    books: () => books,
-  },
 
-  Mutation: {
-    addImage: (_: null, { input }: { input: CreateImageInput }) =>
-      addImage({ ...input }),
-  },
-};
+@Resolver(of => Image)
+export class ImageResolver {
+
+  @Authorized()
+  @Mutation(returns => Image)
+  async addImage(
+    @Arg("path") path: string,
+    @Arg("alternateText", {nullable: true}) alternateText: string,
+    @Arg("hasThumbnail", {nullable: true}) hasThumbnail: boolean
+  ): Promise<Image | undefined> {
+    const newImage = await createNewImage({
+      path,
+      alternateText,
+      hasThumbnail
+    });
+    console.log(newImage);
+    // this.booksData.push(newImage);
+    return newImage;
+  }
+
+  @Authorized()
+  @Query(returns  => [Image])
+  async allImages(): Promise<Image[]> {
+    return await ImageModel.find({});
+  }
+}
+
+// export const resolvers = {
+//   Query: {
+//     books: () => books,
+//   },
+
+//   Mutation: {
+//     addImage: (_: null, { input }: { input: CreateImageInput }) =>
+//       addImage({ ...input }),
+//   },
+// };

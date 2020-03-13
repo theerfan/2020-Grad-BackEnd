@@ -1,6 +1,5 @@
 import { prop, Ref, arrayProp, buildSchema, addModelToTypegoose } from '@typegoose/typegoose';
 import { trim } from '../constants/trim';
-import { Image } from './image.model';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
@@ -27,8 +26,6 @@ export class AutUser extends User {
     @prop(trim)
     public quote?: string;
 
-    @prop({ ref: "Image" })
-    public profilePicture?: Ref<Image>;
 
     @prop(trim)
     public GithubURL?: string;

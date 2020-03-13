@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import * as config from '../config/config';
-import { UserModel } from '../models/user.model';
 import { Next } from 'koa';
+import { AutUserModel } from 'src/models/autUser.model';
 
 const jwtConfig = config.config.jwt;
 
@@ -28,7 +28,7 @@ function authorize(ctx: any, next: Next) {
     jwt.verify(token, jwtConfig.secret, (err: Error, decoded: any) => {
         if (err)
             return ctx.body = unallowedResponse(401, "Failed to authenticate token.", false);
-        UserModel.findById(decoded.id, (err2, usr) => {
+        AutUserModel.findById(decoded.id, (err2: any, usr: any) => {
             if (err2 || !usr) {
                 return ctx.body = unallowedResponse(500, "Internal server problem.", false);
             }

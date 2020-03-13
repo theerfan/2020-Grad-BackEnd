@@ -1,35 +1,35 @@
-import {gql} from 'apollo-server-koa';
+// import { gql } from 'apollo-server-koa';
 
-export const typeDefs = gql`
-# Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+// export const typeDefs = gql`
+// # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-# This "Book" type defines the queryable fields for every book in our data source.
-type Book {
-  title: String
-  author: String
-}
+// # This "Book" type defines the queryable fields for every book in our data source.
+// type Book {
+//   title: String
+//   author: String
+// }
 
-type Image {
-  path: String
-  alternateText: String
-  hasThumbnail: Boolean
-}
+// type Image {
+//   path: String
+//   alternateText: String
+//   hasThumbnail: Boolean
+// }
 
-# The "Query" type is special: it lists all of the available queries that
-# clients can execute, along with the return type for each. In this
-# case, the "books" query returns an array of zero or more Books (defined above).
-type Query {
-  images: [Image]
-  books: [Book]
-}
+// # The "Query" type is special: it lists all of the available queries that
+// # clients can execute, along with the return type for each. In this
+// # case, the "books" query returns an array of zero or more Books (defined above).
+// type Query {
+//   images: [Image]
+//   books: [Book]
+// }
 
-input CreateImageInput {
-  path: String
-  alternateText: String
-  hasThumbnail: Boolean
-}
+// input CreateImageInput {
+//   path: String
+//   alternateText: String
+//   hasThumbnail: Boolean
+// }
 
-type Mutation {
-  addImage(input: CreateImageInput): Image
-}
-`;
+// type Mutation {
+//   addImage(input: CreateImageInput): Image
+// }
+// `;
