@@ -2,7 +2,7 @@ import { prop, getModelForClass, Ref, arrayProp } from '@typegoose/typegoose';
 import { trim } from '../constants/trim';
 import { User } from './user.model';
 import { Image } from './image.model';
-
+import { db } from '../database/connect';
 
 class Comment {
     @prop(trim)
@@ -18,4 +18,6 @@ class Comment {
     public images: Ref<Image>[];
 }
 
-export const CommentModel = getModelForClass(Comment);
+export const CommentModel = getModelForClass(Comment, {
+    existingConnection: db
+});

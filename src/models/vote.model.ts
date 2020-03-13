@@ -1,6 +1,7 @@
 import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
 import { User } from './user.model';
 import { TarinCategory } from './tarinCategory.model';
+import { db } from '../database/connect';
 
 export class Vote {
 
@@ -12,4 +13,6 @@ export class Vote {
 
 }
 
-export const VoteModel = getModelForClass(Vote);
+export const VoteModel = getModelForClass(Vote, {
+    existingConnection: db
+});

@@ -11,7 +11,7 @@ const options = {
 export function middlewares() {
     return compose([
         logger(),
-        // cors(options),
+        cors(options),
         bodyParser(),
         // jwt({secret: "temp-secret"}).unless({path: [/^\/admin/]})
     ]);

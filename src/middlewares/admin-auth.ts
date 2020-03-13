@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import * as configFile from '../config/config';
-import * as Koa from 'koa';
+import { Context, Next } from 'koa';
 
 const config = configFile.config;
 
@@ -29,7 +29,7 @@ export const alumniAuthenticationRequired = (req: any, res: any, next: any) => {
         res.status(403).json({ error: 'Not permitted' })
 };
 
-export const adminBasicAuth = (ctx: Koa.Context, next: Koa.Next) => {
+export const adminBasicAuth = (ctx: Context, next: Next) => {
     const req = ctx.request;
     const authHeader = req.headers['authorization'];
     if (authHeader == null) {

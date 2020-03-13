@@ -1,7 +1,7 @@
 import { prop, getModelForClass, Ref } from '@typegoose/typegoose';
 import { trim } from '../constants/trim';
 import { Question } from './question.model';
-
+import { db } from '../database/connect';
 
 export class Answer {
 
@@ -12,4 +12,6 @@ export class Answer {
     public question: Ref<Question>;
 }
 
-export const AnswerModel = getModelForClass(Answer);
+export const AnswerModel = getModelForClass(Answer, {
+    existingConnection: db
+});

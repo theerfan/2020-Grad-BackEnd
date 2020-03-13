@@ -1,13 +1,14 @@
-import { prop, getModelForClass, Ref, arrayProp } from '@typegoose/typegoose';
+import { prop, Ref, arrayProp, buildSchema, addModelToTypegoose } from '@typegoose/typegoose';
 import { trim } from '../constants/trim';
 import { Image } from './image.model';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
+import { db } from '../database/connect';
 
-export class User {
+export class AutUser {
 
     @prop({ unique: true, required: true, trim: true })
-    public studentName!: string;
+    public studentNumber!: string;
 
     @prop(trim)
     public firstName?: string;
@@ -71,13 +72,10 @@ export class User {
 
 }
 
+const AutUserSchema = buildSchema(AutUser);
+AutUserSchema.static('findOneOrCreate', async function findOneOrCreate(condition: any, doc: any) {
+    const one = await this.findOne(condition);
+    return one || await this.create(doc);
+});
 
-export const UserModel = getModelForClass(User);
-
-// const UserSchema = buildSchema(User);
-// UserSchema.static('findOneOrCreate', async function findOneOrCreate(this: any, conditions: any, doc: any) {
-//     const one = await this.findOne(conditions)
-//     return one || await this.create(doc);
-// });
-
-// export const UserModel = addModelToTypegoose(mongoose.model('User', UserSchema), User);
+export const AutUserModel = addModelToTypegoose(db.model('AutUser', AutUserSchema), AutUser);

@@ -1,5 +1,5 @@
-import {books} from '../testdata/books';
-import {addImage, CreateImageInput} from '../../controllers/image.controller';
+import { books } from '../testdata/books';
+import { addImage, CreateImageInput } from '../../controllers/image.controller';
 
 export const resolvers = {
   Query: {
@@ -7,7 +7,7 @@ export const resolvers = {
   },
 
   Mutation: {
-    addImage: (_: null, {input}: {input: CreateImageInput}) =>
-      addImage({...input}),
+    addImage: (_: null, { input }: { input: CreateImageInput }) =>
+      addImage({ ...input }),
   },
 };
