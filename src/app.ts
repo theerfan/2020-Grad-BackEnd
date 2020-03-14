@@ -9,6 +9,8 @@ import { buildSchema } from 'type-graphql';
 // import { ImageUploadResolver } from './graphql/resolvers/upload.resolver';
 // import { graphqlUploadKoa } from 'graphql-upload';
 import { ImageResolver } from './graphql/resolvers/sample.resolver';
+import { router } from './routers/multer';
+import { AutUser } from './models/autUser.model';
 
 
 const app = new Koa();
@@ -37,8 +39,16 @@ async function main() {
     // }));
     app.use(middlewares());
     app.use(server.getMiddleware());
+    app.use(router.routes());
 
-
+    // await AutUserModel.deleteMany({}, () => {});
+    const admin = await AutUser.findOneOrCreate({
+        studentNumber: "9531815",
+        autMail: "parsaenami"
+    });
+    if (admin) {
+        console.log(admin.studentNumber);
+    }
     app.listen({ port: 4000 }, () =>
         console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
     );

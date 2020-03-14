@@ -8,9 +8,11 @@ const db = mongoose.createConnection(
     {
         useNewUrlParser: true,
         poolSize: dbConfig.connectionPoolSize,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
     }
 )
+
 
 db.on('error', console.error.bind('connection error: '));
 db.once('open', () => {

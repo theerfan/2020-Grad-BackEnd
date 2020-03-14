@@ -13,6 +13,7 @@
     "@koa/router": "^8.0.8",
     "@typegoose/typegoose": "^6.4.0",
     "@types/formidable": "^1.0.31",
+    "@types/jest": "^25.1.4",
     "@types/jsonwebtoken": "^8.3.8",
     "@types/koa": "^2.11.2",
     "@types/koa-cors": "0.0.0",
@@ -59,5 +60,8 @@
   "bugs": {
     "url": "https://github.com/theerfan/95-Grad-Backend/issues"
   },
-  "homepage": "https://github.com/theerfan/95-Grad-Backend#readme"
+  "homepage": "https://github.com/theerfan/95-Grad-Backend#readme",
+  "_moduleAliases": {
+    "@root": "."
+  }
 }

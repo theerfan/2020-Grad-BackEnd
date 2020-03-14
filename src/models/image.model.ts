@@ -7,7 +7,7 @@ import {ObjectType, Field} from "type-graphql";
 export class Image {
 
     @Field()
-    @Property(trim)
+    @Property({trim: true, unique: true})
     public path!: string;
 
     @Field(nullable)

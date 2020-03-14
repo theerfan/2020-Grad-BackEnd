@@ -1,11 +1,10 @@
-import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
 import { ObjectType, Field } from "type-graphql";import { AutUserCondDoc } from './interfaces/interfaces';
-}
 
 @ObjectType()
 export class AutUser extends User {
@@ -15,7 +14,7 @@ export class AutUser extends User {
     public studentNumber!: string;
 
     @Field(nullable)
-    @Property(trim)
+    @Property()
     public birthday?: Date;
 
     @Field(nullable)
@@ -52,7 +51,7 @@ export class AutUser extends User {
 
     @Field()
     @Property({ unique: true, trim: true, required: true })
-    public AutMail!: string;
+    public autMail!: string;
 
     @Field()
     @Property({ default: false })
@@ -71,18 +70,21 @@ export class AutUser extends User {
     public isAdmin!: boolean;
 
     @Field(type => [Vote])
-    @arrayProperty({ itemsRef: Vote, default: [], required: true })
+    @arrayProperty({ itemsRef: "Vote", default: []})
     public votesCast!: Ref<Vote>[];
 
     @Field(type => [Answer])
-    @arrayProperty({ itemsRef: "Answer", default: [], required: true })
+    @arrayProperty({ itemsRef: "Answer", default: [] })
     public answersGiven!: Ref<Answer>;
 
     // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
     // this: ReturnModelType<typeof AutUser>
-    public static async findOneOrCreate(this: any, condition: AutUserCondDoc, doc: AutUserCondDoc) {
-        const one = await this.findOne(condition);
-        return one || await this.create(doc);
+    public static async findOneOrCreate(this: any, condition: AutUserCondDoc): Promise<AutUser> {
+        const thisModel = getModelForClass(AutUser, {
+            existingConnection: db
+        })
+        const one = await thisModel.findOne(condition);
+        return one || await thisModel.create(condition);
     }
 }
 

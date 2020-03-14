@@ -20,7 +20,7 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
   },
   "include": ["src/**/*.ts", "typings", "tslint-rules", "src/models/user.model.ts"],
   "exclude": ["node_modules", "build", "scripts", "acceptance-tests"]
