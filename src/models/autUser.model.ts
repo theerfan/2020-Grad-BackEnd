@@ -1,11 +1,11 @@
-import { prop as Property, Ref, arrayProp as arrayProperty, buildSchema, addModelToTypegoose } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
-import { findOneOrCreate } from './helperFunctions/findoneorcreate';
-import { ObjectType, Field } from "type-graphql";
+import { ObjectType, Field } from "type-graphql";import { AutUserCondDoc } from './interfaces/interfaces';
+}
 
 @ObjectType()
 export class AutUser extends User {
@@ -78,9 +78,14 @@ export class AutUser extends User {
     @arrayProperty({ itemsRef: "Answer", default: [], required: true })
     public answersGiven!: Ref<Answer>;
 
+    // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
+    // this: ReturnModelType<typeof AutUser>
+    public static async findOneOrCreate(this: any, condition: AutUserCondDoc, doc: AutUserCondDoc) {
+        const one = await this.findOne(condition);
+        return one || await this.create(doc);
+    }
 }
 
-const AutUserSchema = buildSchema(AutUser);
-AutUserSchema.static('findOneOrCreate', findOneOrCreate);
-
-export const AutUserModel = addModelToTypegoose(db.model('AutUser', AutUserSchema), AutUser);
+export const AutUserModel = getModelForClass(AutUser, {
+    existingConnection: db
+})
