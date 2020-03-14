@@ -1,6 +1,5 @@
 import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
 import { AutUser } from "src/models/autUser.model";
-import { Context } from 'koa';
 import { AutOauthService } from "src/services/aut-oauth";
 import { transfields } from '../../constants/tranfields';
 import * as jwt from 'jsonwebtoken';
@@ -10,14 +9,14 @@ import {LoginResponse} from '../interfaces/loginResponse.interface';
 
 const jwtConfig = configFile.config.jwt;
 
-@Resolver(of => AutUser)
+@Resolver()
 export class AutUserResolver {
 
     @Mutation()
-    async login(
-        @Ctx() ctx: Context
+    async AutLogin(
+        @Arg("code") code: string
     ): Promise<LoginResponse> {
-        const autOauth = new AutOauthService(Number(ctx.body.code));
+        const autOauth = new AutOauthService(Number(code));
         const autUserProfile = await autOauth.getUser();
         const stdNumber = String(autUserProfile.std_numbers[0]);
         const usr = await AutUser.findOneOrCreate({ studentNumber: stdNumber }, {
