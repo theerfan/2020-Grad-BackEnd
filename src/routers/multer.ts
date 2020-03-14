@@ -10,6 +10,10 @@ const generateFileName = (file: Multer.File) => {
     return Date.now() + randStr + fsPath.extname(file.originalname);
 }
 
+// TODO: add thumbnail generation for big files.
+// Thumbnailed-image model maybe?
+
+
 const storage = Multer.diskStorage({
     destination(req, file, callback) {
         callback(null, 'images/')

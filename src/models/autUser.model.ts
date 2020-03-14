@@ -79,7 +79,7 @@ export class AutUser extends User {
 
     // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
     // this: ReturnModelType<typeof AutUser>
-    public static async findOneOrCreate(this: any, condition: AutUserCondDoc): Promise<AutUser> {
+    public static async findOneOrCreate(condition: AutUserCondDoc): Promise<AutUser> {
         const thisModel = getModelForClass(AutUser, {
             existingConnection: db
         })

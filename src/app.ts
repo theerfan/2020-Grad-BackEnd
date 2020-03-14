@@ -2,22 +2,20 @@ import * as Koa from 'koa';
 import { middlewares } from './middlewares/middleware-compose';
 import { ApolloServer } from 'apollo-server-koa';
 import 'reflect-metadata';
-// import { typeDefs } from './graphql/typedefs/query';
-// import { ImageResolver } from './graphql/resolvers/sampleResolver';
 import { authChecker } from './graphql/authCheckers/authcheckers';
 import { buildSchema } from 'type-graphql';
-// import { ImageUploadResolver } from './graphql/resolvers/upload.resolver';
-// import { graphqlUploadKoa } from 'graphql-upload';
 import { ImageResolver } from './graphql/resolvers/sample.resolver';
 import { router } from './routers/multer';
 import { AutUser } from './models/autUser.model';
+import { CommentResolver } from './graphql/resolvers/comment.resolver';
+import { db } from './database/connect';
 
 
 const app = new Koa();
 
 async function main() {
     const schema = await buildSchema({
-        resolvers: [ImageResolver],
+        resolvers: [ImageResolver, CommentResolver],
         authChecker,
         authMode: "null",
     })
@@ -31,23 +29,23 @@ async function main() {
         uploads: false,
         introspection: true
     });
-
-    // The order is important, otherwise cors breaks it and the graphql server won't work!
-    // app.use(graphqlUploadKoa({
-    //     maxFileSize: 1000000,
-    //     maxFiles: 10
-    // }));
     app.use(middlewares());
     app.use(server.getMiddleware());
     app.use(router.routes());
 
-    // await AutUserModel.deleteMany({}, () => {});
+    await db.dropDatabase();
     const admin = await AutUser.findOneOrCreate({
         studentNumber: "9531815",
         autMail: "parsaenami"
     });
+
+    const commenter = await AutUser.findOneOrCreate({
+        studentNumber: "9531012",
+        autMail: "ashkan"
+    });
     if (admin) {
         console.log(admin.studentNumber);
+        console.log(commenter);
     }
     app.listen({ port: 4000 }, () =>
         console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),

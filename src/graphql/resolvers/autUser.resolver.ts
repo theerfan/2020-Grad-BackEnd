@@ -19,10 +19,7 @@ export class AutUserResolver {
         const autOauth = new AutOauthService(Number(code));
         const autUserProfile = await autOauth.getUser();
         const stdNumber = String(autUserProfile.std_numbers[0]);
-        const usr = await AutUser.findOneOrCreate({ studentNumber: stdNumber }, {
-            studentNumber: stdNumber,
-            autMail: autUserProfile.email
-        });
+        const usr = await AutUser.findOneOrCreate({ studentNumber: stdNumber, autMail: autUserProfile.email });
         if (usr) {
             let user = usr as DocumentType<AutUser>;
             if (stdNumber.startsWith('9531') || transfields.includes(stdNumber)) {

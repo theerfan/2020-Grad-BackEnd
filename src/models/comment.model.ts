@@ -6,7 +6,7 @@ import { db } from '../database/connect';
 import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
-class Comment {
+export class Comment {
     @Field()
     @Property(trim)
     public text!: string;
@@ -17,7 +17,7 @@ class Comment {
 
     @Field(type => User)
     @Property({ ref: "User" })
-    public reciever!: Ref<User>;
+    public receiver!: Ref<User>;
 
     @Field(type => [Image]!)
     @arrayProperty({ ref: "Image" })
