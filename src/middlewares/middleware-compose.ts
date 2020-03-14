@@ -1,18 +1,21 @@
 import * as compose from 'koa-compose';
-import * as cors from 'koa-cors';
+// import * as cors from 'koa-cors';
 // import * as jwt from 'koa-jwt';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
+// import {uploader} from './upload';
+import {uploadWare} from './formidable.middleware';
 
-const options = {
-    origin: '*'
-}
+// const options = {
+//     origin: '*'
+// }
 
 export function middlewares() {
     return compose([
         logger(),
-        cors(options),
+        // cors(options),
         bodyParser(),
+        uploadWare
         // jwt({secret: "temp-secret"}).unless({path: [/^\/admin/]})
     ]);
 };
