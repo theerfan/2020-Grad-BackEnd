@@ -1,37 +1,45 @@
-import { Resolver, Mutation, Arg } from "type-graphql";
-import { AutUser, AutUserModel } from "src/models/autUser.model";
-import { AutOauthService } from "src/services/aut-oauth";
+import { Resolver, Mutation, Arg, Ctx } from "type-graphql";
+import { AutUser, AutUserModel } from "../../models/autUser.model";
+// import { AutOauthService } from "src/services/aut-oauth";
 import { transfields } from '../../constants/tranfields';
 import * as jwt from 'jsonwebtoken';
 import { DocumentType } from '@typegoose/typegoose';
 import * as configFile from '../../config/config';
-import { LoginResponse } from '../interfaces/loginResponse.interface';
+// import { Context } from "koa";
 
 const jwtConfig = configFile.config.jwt;
 
 @Resolver()
 export class AutUserResolver {
 
-    @Mutation()
+    @Mutation(returns => AutUser)
     async AutLogin(
-        @Arg("code") code: string
-    ): Promise<LoginResponse> {
-        const autOauth = new AutOauthService(Number(code));
-        const autUserProfile = await autOauth.getUser();
-        const stdNumber = String(autUserProfile.std_numbers[0]);
-        const usr = await AutUser.findOneOrCreate(AutUserModel, { studentNumber: stdNumber, autMail: autUserProfile.email });
+        @Arg("code") code: string,
+        @Ctx("ctx") ctx: any
+    ): Promise<AutUser> {
+        // const autOauth = new AutOauthService(Number(code));
+        // const autUserProfile = await autOauth.getUser();
+        // const studentNumber = String(autUserProfile.std_numbers[0]);
+        const studentNumber = "9631001";
+        const autUserProfile = {
+            email: "mamad@gmail.com"
+        }
+        const usr = await AutUser.findOneOrCreate(AutUserModel, { studentNumber, autMail: autUserProfile.email });
         if (usr) {
             let user = usr as DocumentType<AutUser>;
-            if (stdNumber.startsWith('9531') || transfields.includes(stdNumber)) {
+            if (studentNumber.startsWith('9531') || transfields.includes(studentNumber)) {
                 user.isGraduating = true;
             }
             user = await user.save();
             const token = jwt.sign({ id: user._id }, jwtConfig.secret, {
                 expiresIn: jwtConfig.expirePeriod
             });
-            return { _id: user._id, token };
+            // console.log(ctx);
+            // console.log(token);
+            ctx.set('authorization', token);
+            return usr;
         }
-        return {};
+        throw Error ("Problem with aut login");
 
     }
 }

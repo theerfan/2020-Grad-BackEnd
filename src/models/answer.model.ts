@@ -15,12 +15,13 @@ export class Answer {
     @Property({ ref: "Question", required: true })
     public question!: Ref<Question>;
 
-    public static async createOneOrUpdate(condition: any) {
-        const AnswerModel = getModelForClass(Answer, {
-            existingConnection: db
-        });
+    // public static async createOneOrUpdate(condition: any) {
+    //     const AnswerModel = getModelForClass(Answer, {
+    //         existingConnection: db
+    //     });
         
-    }
+        
+    // }
 }
 
 export const AnswerModel = getModelForClass(Answer, {

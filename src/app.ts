@@ -8,24 +8,22 @@ import { ImageResolver } from './graphql/resolvers/sample.resolver';
 import { router } from './routers/multer';
 import { AutUser, AutUserModel } from './models/autUser.model';
 import { CommentResolver } from './graphql/resolvers/comment.resolver';
-import { db } from './database/connect';
+// import { db } from './database/connect';
+import { AutUserResolver } from './graphql/resolvers/autUser.resolver';
 
 
 const app = new Koa();
 
 async function main() {
     const schema = await buildSchema({
-        resolvers: [ImageResolver, CommentResolver],
+        resolvers: [ImageResolver, CommentResolver, AutUserResolver],
         authChecker,
         authMode: "null",
     })
 
     const server = new ApolloServer({
         schema,
-        context: (ctx: Koa.Context) => ({
-            ctx,
-            req: ctx.request
-        }),
+        context: ctx => ctx,
         uploads: false,
         introspection: true
     });
