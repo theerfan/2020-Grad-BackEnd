@@ -1,11 +1,11 @@
-import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
+import { Resolver, Mutation, Arg } from "type-graphql";
 import { AutUser, AutUserModel } from "src/models/autUser.model";
 import { AutOauthService } from "src/services/aut-oauth";
 import { transfields } from '../../constants/tranfields';
 import * as jwt from 'jsonwebtoken';
 import { DocumentType } from '@typegoose/typegoose';
 import * as configFile from '../../config/config';
-import {LoginResponse} from '../interfaces/loginResponse.interface';
+import { LoginResponse } from '../interfaces/loginResponse.interface';
 
 const jwtConfig = configFile.config.jwt;
 
@@ -29,7 +29,7 @@ export class AutUserResolver {
             const token = jwt.sign({ id: user._id }, jwtConfig.secret, {
                 expiresIn: jwtConfig.expirePeriod
             });
-            return {_id: user._id, token };
+            return { _id: user._id, token };
         }
         return {};
 
