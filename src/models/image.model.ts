@@ -19,14 +19,26 @@ export class Image {
     @Property({ default: false })
     public hasThumbnail: boolean;
 
+    private static model = getModelForClass(Image, {
+        existingConnection: db
+    });
+
     public static async findByIdAndDeleteAndRemoveFile(condition: Ref<Image>) {
-        const thisModel = getModelForClass(Image, {
-            existingConnection: db
-        });
-        const one = await thisModel.findById(condition);
+        const one = await this.model.findById(condition);
         if (one) {
             unlink(one.path, () => { });
             await one.remove();
+        }
+    }
+    public static async findByMultipleIdsAndDeleteAndRemoveFiles(conditions: Ref<Image>[]) {
+        try {
+            for (const cond of conditions) {
+                await this.findByIdAndDeleteAndRemoveFile(cond);
+            }
+            return true;
+        }
+        catch (err) {
+            return false;
         }
     }
 }

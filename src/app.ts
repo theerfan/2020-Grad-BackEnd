@@ -33,7 +33,7 @@ async function main() {
     app.use(server.getMiddleware());
     app.use(router.routes());
 
-    await db.dropDatabase();
+    // await db.dropDatabase();
     const admin = await AutUser.findOneOrCreate({
         studentNumber: "9531815",
         autMail: "parsaenami"

@@ -28,8 +28,6 @@ export class Comment {
     @Field(type => [Image]!)
     @arrayProperty({ ref: "Image" })
     public images?: Ref<Image>[];
-
-    // public static async removeAndPurge(condition: )
 }
 
 export const CommentModel = getModelForClass(Comment, {

@@ -1,23 +1,9 @@
-import { Resolver, Mutation, Arg, Query, InputType, Field } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, ID } from 'type-graphql';
 import { Comment, CommentModel } from '../../models/comment.model';
 import { AutUserModel } from '../../models/autUser.model';
-
-
-@InputType()
-class AddDeleteInput {
-
-    @Field()
-    text: string;
-
-    @Field()
-    receiverNumber: string;
-
-    @Field()
-    senderNumber: string;
-
-    @Field( type => [String]) 
-    picturePaths: string[];
-}
+import { Schema } from 'mongoose';
+import { Image } from '../../models/image.model';
+import { GraphQLScalarType } from 'graphql';
 
 @Resolver(of => Comment)
 export class CommentResolver {
@@ -37,9 +23,11 @@ export class CommentResolver {
 
     @Mutation(returns => Comment)
     async addCommentForUser(
-        @Arg("input") input: AddDeleteInput
+        @Arg("text") text: string,
+        @Arg("receiverNumber") receiverNumber: string,
+        @Arg("senderNumber") senderNumber: string,
+        @Arg("picturePaths", type => [String]) picturePaths: string[]
     ): Promise<Comment> {
-        const {text, receiverNumber, senderNumber, picturePaths} = input;
         const receiver = (await AutUserModel.findOne({ studentNumber: receiverNumber }))?._id;
         const sender = (await AutUserModel.findOne({ studentNumber: senderNumber }))?._id;
         const images = (await AutUserModel.find().where('path').in(picturePaths).select('_id').exec()).flat();
@@ -53,9 +41,16 @@ export class CommentResolver {
 
     @Mutation(returns => Boolean)
     async deleteCommentForUser(
-        @Arg("input") input: AddDeleteInput
-    ): Promise<boolean> {
-        
+        @Arg("id", type => ID) id: Schema.Types.ObjectId
+    ): Promise<Comment> {
+        const comment = await CommentModel.findByIdAndDelete(id);
+        if (comment) {
+            if (comment?.images) {
+                Image.findByMultipleIdsAndDeleteAndRemoveFiles(comment.images);
+            }
+            return  comment;
+        }
+        throw new Error("Comment not found asan!");        
     }
 
 }
