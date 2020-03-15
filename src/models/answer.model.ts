@@ -1,8 +1,8 @@
-import { prop as Property, getModelForClass, Ref } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass, Ref, ReturnModelType } from '@typegoose/typegoose';
 import { trim } from '../constants/typeql';
-import { Question } from './question.model';
+import { Question, QuestionModel } from './question.model';
 import { db } from '../database/connect';
-import {ObjectType, Field} from "type-graphql";
+import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class Answer {
@@ -15,13 +15,24 @@ export class Answer {
     @Property({ ref: "Question", required: true })
     public question!: Ref<Question>;
 
-    // public static async createOneOrUpdate(condition: any) {
-    //     const AnswerModel = getModelForClass(Answer, {
-    //         existingConnection: db
-    //     });
-        
-        
-    // }
+    public static async createOneOrUpdate(
+        thisModel: ReturnModelType<typeof Answer, unknown>,
+        question: Ref<Question>,
+        text: string
+    ): Promise<Answer | undefined> {
+        const ques = await QuestionModel.findById(question);
+        const one = await thisModel.findOne({ question });
+        if (one && ques) {
+            one.text = text;
+        }
+        else if (ques) {
+            return await thisModel.create({
+                text,
+                "question": ques
+            });
+        }
+        return;
+    }
 }
 
 export const AnswerModel = getModelForClass(Answer, {

@@ -10,13 +10,14 @@ import { AutUser, AutUserModel } from './models/autUser.model';
 import { CommentResolver } from './graphql/resolvers/comment.resolver';
 // import { db } from './database/connect';
 import { AutUserResolver } from './graphql/resolvers/autUser.resolver';
+import { AnswerResolver } from './graphql/resolvers/answer.resolver';
 
 
 const app = new Koa();
 
 async function main() {
     const schema = await buildSchema({
-        resolvers: [ImageResolver, CommentResolver, AutUserResolver],
+        resolvers: [ImageResolver, CommentResolver, AutUserResolver, AnswerResolver],
         authChecker,
         authMode: "null",
     })
