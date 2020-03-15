@@ -2,8 +2,7 @@ import { Resolver, Mutation, Arg, Query, ID } from 'type-graphql';
 import { Comment, CommentModel } from '../../models/comment.model';
 import { AutUserModel } from '../../models/autUser.model';
 import { Schema } from 'mongoose';
-import { Image } from '../../models/image.model';
-import { GraphQLScalarType } from 'graphql';
+import { Image, ImageModel } from '../../models/image.model';
 
 @Resolver(of => Comment)
 export class CommentResolver {
@@ -39,18 +38,18 @@ export class CommentResolver {
         });
     }
 
-    @Mutation(returns => Boolean)
+    @Mutation(returns => Comment)
     async deleteCommentForUser(
         @Arg("id", type => ID) id: Schema.Types.ObjectId
     ): Promise<Comment> {
         const comment = await CommentModel.findByIdAndDelete(id);
         if (comment) {
             if (comment?.images) {
-                Image.findByMultipleIdsAndDeleteAndRemoveFiles(comment.images);
+                Image.findByMultipleIdsAndDeleteAndRemoveFiles(ImageModel, comment.images);
             }
-            return  comment;
+            return comment;
         }
-        throw new Error("Comment not found asan!");        
+        throw new Error("Comment not found asan!");
     }
 
 }

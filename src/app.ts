@@ -6,7 +6,7 @@ import { authChecker } from './graphql/authCheckers/authcheckers';
 import { buildSchema } from 'type-graphql';
 import { ImageResolver } from './graphql/resolvers/sample.resolver';
 import { router } from './routers/multer';
-import { AutUser } from './models/autUser.model';
+import { AutUser, AutUserModel } from './models/autUser.model';
 import { CommentResolver } from './graphql/resolvers/comment.resolver';
 import { db } from './database/connect';
 
@@ -34,12 +34,12 @@ async function main() {
     app.use(router.routes());
 
     // await db.dropDatabase();
-    const admin = await AutUser.findOneOrCreate({
+    const admin = await AutUser.findOneOrCreate(AutUserModel, {
         studentNumber: "9531815",
         autMail: "parsaenami"
     });
 
-    const commenter = await AutUser.findOneOrCreate({
+    const commenter = await AutUser.findOneOrCreate(AutUserModel, {
         studentNumber: "9531012",
         autMail: "ashkan"
     });

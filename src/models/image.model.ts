@@ -1,4 +1,4 @@
-import { prop as Property, getModelForClass, Ref } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass, Ref, ReturnModelType } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
 import { db } from '../database/connect';
 import { ObjectType, Field } from "type-graphql";
@@ -19,21 +19,21 @@ export class Image {
     @Property({ default: false })
     public hasThumbnail: boolean;
 
-    private static model = getModelForClass(Image, {
-        existingConnection: db
-    });
-
-    public static async findByIdAndDeleteAndRemoveFile(condition: Ref<Image>) {
-        const one = await this.model.findById(condition);
+    public static async findByIdAndDeleteAndRemoveFile(
+        thisModel: ReturnModelType<typeof Image, unknown>,
+        condition: Ref<Image>) {
+        const one = await thisModel.findById(condition);
         if (one) {
             unlink(one.path, () => { });
             await one.remove();
         }
     }
-    public static async findByMultipleIdsAndDeleteAndRemoveFiles(conditions: Ref<Image>[]) {
+    public static async findByMultipleIdsAndDeleteAndRemoveFiles(
+        thisModel: ReturnModelType<typeof Image, unknown>,
+        conditions: Ref<Image>[]) {
         try {
             for (const cond of conditions) {
-                await this.findByIdAndDeleteAndRemoveFile(cond);
+                await this.findByIdAndDeleteAndRemoveFile(thisModel, cond);
             }
             return true;
         }

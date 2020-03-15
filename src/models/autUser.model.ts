@@ -1,4 +1,4 @@
-import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
 import { Vote } from './vote.model';
 import { Answer } from './answer.model';
@@ -71,7 +71,7 @@ export class AutUser extends User {
     public isAdmin!: boolean;
 
     @Field(type => [Vote])
-    @arrayProperty({ itemsRef: "Vote", default: []})
+    @arrayProperty({ itemsRef: "Vote", default: [] })
     public votesCast!: Ref<Vote>[];
 
     @Field(type => [Answer])
@@ -80,10 +80,10 @@ export class AutUser extends User {
 
     // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
     // this: ReturnModelType<typeof AutUser>
-    public static async findOneOrCreate(condition: AutUserCond): Promise<AutUser> {
-        const thisModel = getModelForClass(AutUser, {
-            existingConnection: db
-        })
+    public static async findOneOrCreate(
+        thisModel: ReturnModelType<typeof AutUser, unknown>,
+        condition: AutUserCond
+    ): Promise<AutUser> {
         const one = await thisModel.findOne(condition);
         return one || await thisModel.create(condition);
     }

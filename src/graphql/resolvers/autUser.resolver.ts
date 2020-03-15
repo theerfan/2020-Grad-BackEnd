@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
-import { AutUser } from "src/models/autUser.model";
+import { AutUser, AutUserModel } from "src/models/autUser.model";
 import { AutOauthService } from "src/services/aut-oauth";
 import { transfields } from '../../constants/tranfields';
 import * as jwt from 'jsonwebtoken';
@@ -19,7 +19,7 @@ export class AutUserResolver {
         const autOauth = new AutOauthService(Number(code));
         const autUserProfile = await autOauth.getUser();
         const stdNumber = String(autUserProfile.std_numbers[0]);
-        const usr = await AutUser.findOneOrCreate({ studentNumber: stdNumber, autMail: autUserProfile.email });
+        const usr = await AutUser.findOneOrCreate(AutUserModel, { studentNumber: stdNumber, autMail: autUserProfile.email });
         if (usr) {
             let user = usr as DocumentType<AutUser>;
             if (stdNumber.startsWith('9531') || transfields.includes(stdNumber)) {
