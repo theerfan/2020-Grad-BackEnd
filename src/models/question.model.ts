@@ -1,5 +1,6 @@
-import { prop as Property, getModelForClass } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
 import { ObjectType, Field } from "type-graphql";
+
 
 @ObjectType()
 export class Question {
