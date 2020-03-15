@@ -5,7 +5,7 @@ import { ObjectType, Field } from "type-graphql";
 @ObjectType()
 export class TarinCategory {
     @Field()
-    @Property()
+    @Property({trim: true, unique: true})
     public title: string;
 }
 

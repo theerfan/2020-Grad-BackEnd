@@ -1,5 +1,6 @@
 import { Resolver, Query, Arg, Mutation } from "type-graphql";
 import { Question, QuestionModel } from "src/models/question.model";
+import { AnswerModel } from "src/models/answer.model";
 
 @Resolver()
 export class QuestionResolver {
@@ -27,7 +28,20 @@ export class QuestionResolver {
             oldQu.phrase = newQ;
             return await oldQu.save();
         }
-        throw Error ("Question not found");
+        throw Error("Question not found");
+    }
+
+    async deleteQuestion(
+        @Arg("question") phrase: string
+    ): Promise<Question> {
+        const question = await QuestionModel.findOneAndDelete({ phrase });
+        if (question) {
+            AnswerModel.deleteMany({
+                "question": question._id;
+            });
+            return question;
+        }
+        throw Error("question not found");
     }
 
 }

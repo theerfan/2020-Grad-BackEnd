@@ -70,9 +70,9 @@ export class AutUser extends User {
     @Property({ required: true, default: false })
     public isAdmin!: boolean;
 
-    @Field(type => [Vote])
-    @arrayProperty({ itemsRef: "Vote", default: [] })
-    public votesCast!: Ref<Vote>[];
+    // @Field(type => [Vote])
+    // @arrayProperty({ itemsRef: "Vote", default: [] })
+    // public votesCast!: Ref<Vote>[];
 
     @Field(type => [Answer])
     @arrayProperty({ itemsRef: "Answer", default: [] })
