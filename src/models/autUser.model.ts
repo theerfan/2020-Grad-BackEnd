@@ -4,7 +4,8 @@ import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
-import { ObjectType, Field } from "type-graphql";import { AutUserCondDoc } from './interfaces/interfaces';
+import { ObjectType, Field } from "type-graphql";
+import { AutUserCond } from './interfaces/interfaces';
 
 @ObjectType()
 export class AutUser extends User {
@@ -79,7 +80,7 @@ export class AutUser extends User {
 
     // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
     // this: ReturnModelType<typeof AutUser>
-    public static async findOneOrCreate(condition: AutUserCondDoc): Promise<AutUser> {
+    public static async findOneOrCreate(condition: AutUserCond): Promise<AutUser> {
         const thisModel = getModelForClass(AutUser, {
             existingConnection: db
         })

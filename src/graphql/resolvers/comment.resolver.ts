@@ -16,7 +16,7 @@ class AddDeleteInput {
     senderNumber: string;
 
     @Field( type => [String]) 
-    picturePaths: string[]
+    picturePaths: string[];
 }
 
 @Resolver(of => Comment)
@@ -37,11 +37,9 @@ export class CommentResolver {
 
     @Mutation(returns => Comment)
     async addCommentForUser(
-        @Arg("text") text: string,
-        @Arg("receiverNumber") receiverNumber: string,
-        @Arg("senderNumber") senderNumber: string,
-        @Arg("picturePaths", type => [String]) picturePaths: string[]
+        @Arg("input") input: AddDeleteInput
     ): Promise<Comment> {
+        const {text, receiverNumber, senderNumber, picturePaths} = input;
         const receiver = (await AutUserModel.findOne({ studentNumber: receiverNumber }))?._id;
         const sender = (await AutUserModel.findOne({ studentNumber: senderNumber }))?._id;
         const images = (await AutUserModel.find().where('path').in(picturePaths).select('_id').exec()).flat();
@@ -50,12 +48,14 @@ export class CommentResolver {
             sender,
             receiver,
             images
-        })
+        });
     }
 
-    @Mutation(returns => boolean)
+    @Mutation(returns => Boolean)
     async deleteCommentForUser(
-        @Arg
-    )
+        @Arg("input") input: AddDeleteInput
+    ): Promise<boolean> {
+        
+    }
 
 }
