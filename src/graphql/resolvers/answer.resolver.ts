@@ -38,7 +38,7 @@ export class AnswerResolver {
                     const questionGiven = await QuestionModel.findOne({ question });
                     if (questionGiven) {
                         list.push(
-                            new QuestionAnswer(questionGiven.phrase, answer);
+                            new QuestionAnswer(questionGiven.phrase, answer)
                         )
                     }
                 }

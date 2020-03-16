@@ -1,6 +1,6 @@
-import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType, DocumentType } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
-import { Vote } from './vote.model';
+// import { Vote } from './vote.model';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
@@ -83,7 +83,7 @@ export class AutUser extends User {
     public static async findOneOrCreate(
         thisModel: ReturnModelType<typeof AutUser, unknown>,
         condition: AutUserCond
-    ): Promise<AutUser> {
+    ): Promise<DocumentType<AutUser>> {
         const one = await thisModel.findOne(condition);
         return one || await thisModel.create(condition);
     }

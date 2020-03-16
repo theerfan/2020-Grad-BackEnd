@@ -19,7 +19,7 @@ export class Answer {
         thisModel: ReturnModelType<typeof Answer, unknown>,
         question: Ref<Question>,
         text: string
-    ): Promise<Answer | undefined> {
+    ): Promise<Answer> {
         const ques = await QuestionModel.findById(question);
         const one = await thisModel.findOne({ question });
         if (one && ques) {
@@ -31,7 +31,7 @@ export class Answer {
                 "question": ques
             });
         }
-        return;
+        throw Error ("something went wrong");
     }
 }
 
