@@ -6,9 +6,7 @@ import { authChecker } from './graphql/authCheckers/authcheckers';
 import { buildSchema } from 'type-graphql';
 import { ImageResolver } from './graphql/resolvers/sample.resolver';
 import { router } from './routers/multer';
-import { AutUser, AutUserModel } from './models/autUser.model';
 import { CommentResolver } from './graphql/resolvers/comment.resolver';
-// import { AutUserResolver } from './graphql/resolvers/autUser.resolver';
 import { AnswerResolver } from './graphql/resolvers/answer.resolver';
 import { printSchema } from 'graphql';
 import * as fs from 'fs';
@@ -39,33 +37,33 @@ async function main() {
     app.use(router.routes());
 
     // await db.dropDatabase();
-    const admin = await AutUser.findOneOrCreate(AutUserModel, {
-        studentNumber: "9531815",
-        autMail: "parsaenami"
-    });
-    admin.isGraduating = true;
-    admin.isAdmin = true;
-    admin.save();
+    // const admin = await AutUser.findOneOrCreate(AutUserModel, {
+    //     studentNumber: "9531815",
+    //     autMail: "parsaenami"
+    // });
+    // admin.isGraduating = true;
+    // admin.isAdmin = true;
+    // admin.save();
     
 
-    const commenter = await AutUser.findOneOrCreate(AutUserModel, {
-        studentNumber: "9531012",
-        autMail: "ashkan",
-    });
+    // const commenter = await AutUser.findOneOrCreate(AutUserModel, {
+    //     studentNumber: "9531012",
+    //     autMail: "ashkan",
+    // });
 
-    commenter.isGraduating = true;
-    commenter.save();
+    // commenter.isGraduating = true;
+    // commenter.save();
 
-    if (admin) {
-        console.log(admin.studentNumber);
-        console.log(commenter);
-    }
+    // if (admin) {
+    //     console.log(admin.studentNumber);
+    //     console.log(commenter);
+    // }
     console.log((await db).modelNames());
     fs.writeFileSync("schema.gql", printSchema(schema));
     // console.log(printSchema(schema));
 
     app.listen({ port: 7000 }, () =>
-        console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
+        console.log(`Server ready at http://localhost:7000${server.graphqlPath}`),
     );
 
 

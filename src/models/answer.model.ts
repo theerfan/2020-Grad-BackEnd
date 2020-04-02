@@ -1,4 +1,4 @@
-import { prop as Property, getModelForClass, Ref, ReturnModelType, getClassForDocument, DocumentType } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass, Ref, ReturnModelType, DocumentType } from '@typegoose/typegoose';
 import { trim } from '../constants/typeql';
 import { Question, QuestionModel } from './question.model';
 import { db } from '../database/connect';

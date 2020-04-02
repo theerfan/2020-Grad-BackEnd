@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import * as config from '../config/config';
 import { Next, Context } from 'koa';
-import { AutUserModel } from 'src/models/autUser.model';
+import { AutUserModel } from '../models/autUser.model';
 
 const jwtConfig = config.config.jwt;
 
