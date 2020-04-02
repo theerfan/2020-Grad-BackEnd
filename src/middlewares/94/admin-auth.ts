@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
-import * as configFile from '../config/config';
-import { Context, Next } from 'koa';
+import * as configFile from '../../config/config';
+import { Context, Next, Response } from 'koa';
 
 const config = configFile.config;
 
@@ -18,20 +18,20 @@ passport.use(new JwtStrategy(opts, (jwtPayload, done) => {
         return done(null, { isGraduating: true })
     } else if (jwtPayload._id)
         return done(null, jwtPayload);
-    return done(null, false)
+    return done(null, false);
 }));
 
 export const authenticationRequired = passport.authenticate('jwt', { session: false });
-export const alumniAuthenticationRequired = (req: any, res: any, next: any) => {
+export const alumniAuthenticationRequired = (req: any, res: Response, next: Next) => {
     if (req.user.isAdmin === true)
         next();
     else
-        res.status(403).json({ error: 'Not permitted' })
+        res.status = 403;
+        res.body = "Not permitted";
 };
 
 export const adminBasicAuth = (ctx: Context, next: Next) => {
-    const req = ctx.request;
-    const authHeader = req.headers['authorization'];
+    const authHeader = ctx.get('authorization');
     if (authHeader == null) {
         ctx.throw(401, "No authorization header provided");
     }

@@ -1,8 +1,9 @@
-import { Resolver, Mutation, Arg, Query, ID } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, ID, Ctx } from 'type-graphql';
 import { Comment, CommentModel } from '../../models/comment.model';
 import { AutUserModel } from '../../models/autUser.model';
 import { Schema } from 'mongoose';
 import { Image, ImageModel } from '../../models/image.model';
+import { Context } from 'koa';
 
 @Resolver(of => Comment)
 export class CommentResolver {
@@ -24,15 +25,14 @@ export class CommentResolver {
     async addCommentForUser(
         @Arg("text") text: string,
         @Arg("receiverNumber") receiverNumber: string,
-        @Arg("senderNumber") senderNumber: string,
-        @Arg("picturePaths", type => [String]) picturePaths: string[]
+        @Arg("picturePaths", type => [String]) picturePaths: string[],
+        @Ctx("ctx") ctx: Context
     ): Promise<Comment> {
         const receiver = (await AutUserModel.findOne({ studentNumber: receiverNumber }))?._id;
-        const sender = (await AutUserModel.findOne({ studentNumber: senderNumber }))?._id;
         const images = (await AutUserModel.find().where('path').in(picturePaths).select('_id').exec()).flat();
         return await CommentModel.create({
             text,
-            sender,
+            sender: ctx.user,
             receiver,
             images
         });

@@ -1,4 +1,4 @@
-import { prop as Property, getModelForClass, Ref, ReturnModelType } from '@typegoose/typegoose';
+import { prop as Property, getModelForClass, Ref, ReturnModelType, getClassForDocument, DocumentType } from '@typegoose/typegoose';
 import { trim } from '../constants/typeql';
 import { Question, QuestionModel } from './question.model';
 import { db } from '../database/connect';
@@ -19,7 +19,7 @@ export class Answer {
         thisModel: ReturnModelType<typeof Answer, unknown>,
         question: Ref<Question>,
         text: string
-    ): Promise<Answer> {
+    ): Promise<DocumentType<Answer>> {
         const ques = await QuestionModel.findById(question);
         const one = await thisModel.findOne({ question });
         if (one && ques) {

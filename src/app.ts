@@ -8,22 +8,22 @@ import { ImageResolver } from './graphql/resolvers/sample.resolver';
 import { router } from './routers/multer';
 import { AutUser, AutUserModel } from './models/autUser.model';
 import { CommentResolver } from './graphql/resolvers/comment.resolver';
-import { AutUserResolver } from './graphql/resolvers/autUser.resolver';
+// import { AutUserResolver } from './graphql/resolvers/autUser.resolver';
 import { AnswerResolver } from './graphql/resolvers/answer.resolver';
 import { printSchema } from 'graphql';
 import * as fs from 'fs';
 import { AdminQuestionResolver } from './graphql/resolvers/admin/admin.question.resolver';
-import { AdminTarinCategoryResolver } from "./graphql/resolvers/admin/Admin.tarinCategory.resolver";
+import { AdminTarinCategoryResolver } from "./graphql/resolvers/admin/admin.tarinCategory.resolver";
 import { AdminVoteResolver } from "./graphql/resolvers/admin/admin.vote.resolver";
 import { VoteResolver } from './graphql/resolvers/vote.resolver';
 import { db } from './database/connect';
-
+import { AutUserDummyResolver } from './graphql/resolvers/dummy/autUser.dummy.resolver.';
 
 const app = new Koa();
 
 async function main() {
     const schema = await buildSchema({
-        resolvers: [ImageResolver, CommentResolver, AutUserResolver, AnswerResolver, AdminQuestionResolver, AdminTarinCategoryResolver, AdminVoteResolver, VoteResolver],
+        resolvers: [ImageResolver, CommentResolver, AutUserDummyResolver, AnswerResolver, AdminQuestionResolver, AdminTarinCategoryResolver, AdminVoteResolver, VoteResolver],
         authChecker,
         authMode: "null",
     })

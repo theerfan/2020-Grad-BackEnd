@@ -1,23 +1,27 @@
-import { Resolver, Mutation, Arg, Query } from "type-graphql";
+import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
 import { Answer, AnswerModel } from "../../models/answer.model";
 import { QuestionModel } from "../../models/question.model";
 import { AutUserModel } from "../../models/autUser.model";
 import { QuestionAnswer } from "../typeDefs/questionAnswer";
+import { Context } from "koa";
 
 @Resolver()
 export class AnswerResolver {
 
     @Mutation(returns => Answer)
     async giveAnswer(
-        @Arg("studentNumber") studentNumber: string,
         @Arg("question") phrase: string,
-        @Arg("answer") answerText: string
+        @Arg("answer") answerText: string,
+        @Ctx("ctx") ctx: Context
     ): Promise<Answer> {
         const question = await QuestionModel.findOne({ phrase });
         if (question) {
             const answer = await Answer.createOneOrUpdate(AnswerModel, question._id, answerText);
-            if (answer)
+            if (answer && ctx.user) {
+                // Add answer to user's answers.
+                AutUserModel.findByIdAndUpdate(ctx.user, { "$push": { "answersGiven": answer._id } });
                 return answer;
+            }
         }
         throw Error("question not found");
     }
@@ -45,7 +49,7 @@ export class AnswerResolver {
                 return list;
             }
         }
-        throw Error ("something went wrong!");
+        throw Error("something went wrong!");
         // return new QuestionAnswer();
     }
 }

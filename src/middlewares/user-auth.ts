@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import * as config from '../config/config';
-import { Next } from 'koa';
+import { Next, Context } from 'koa';
 import { AutUserModel } from 'src/models/autUser.model';
 
 const jwtConfig = config.config.jwt;
@@ -12,11 +12,11 @@ function unallowedResponse(statusCode: number, message: string, auth?: boolean) 
     };
 }
 
-function authorize(ctx: any, next: Next) {
-    // Trim out the bearer text using substring
+export function authorize(ctx: Context, next: Next) {
     let token;
     try {
-        token = ctx.request.get('Authorization').substring(7);
+        // Trim out the bearer text using substring
+        token = ctx.get('Authorization').substring(7);
         console.log(token);
     } catch (error) {
         return ctx.body = unallowedResponse(400, "No token provided");
@@ -40,4 +40,3 @@ function authorize(ctx: any, next: Next) {
     return;
 }
 
-module.exports = authorize;
