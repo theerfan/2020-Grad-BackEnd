@@ -6,7 +6,8 @@ export class AdminTarinCategoryResolver {
     @Mutation(returns => TarinCategory)
     async addTarinCategory(
         @Arg("title")
-        title: string): Promise<TarinCategory> {
+        title: string
+        ): Promise<TarinCategory> {
         return await TarinCategoryModel.create({ title });
     }
 }

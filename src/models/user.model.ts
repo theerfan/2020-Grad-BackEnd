@@ -1,9 +1,9 @@
-import { prop as Property, Ref} from '@typegoose/typegoose';
+import { prop as Property, Ref, defaultClasses} from '@typegoose/typegoose';
 import { Image } from './image.model';
 import {ObjectType, Field} from "type-graphql";
 
 @ObjectType()
-export abstract class User {
+export abstract class User extends defaultClasses.FindOrCreate {
 
     @Field()
     @Property({trim: true, default: ""})

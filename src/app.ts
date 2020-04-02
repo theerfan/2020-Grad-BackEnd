@@ -16,6 +16,7 @@ import { AdminVoteResolver } from "./graphql/resolvers/admin/admin.vote.resolver
 import { VoteResolver } from './graphql/resolvers/vote.resolver';
 import { db } from './database/connect';
 import { AutUserDummyResolver } from './graphql/resolvers/dummy/autUser.dummy.resolver.';
+import { AutUser, AutUserModel } from './models/autUser.model';
 
 const app = new Koa();
 
@@ -36,28 +37,28 @@ async function main() {
     app.use(server.getMiddleware());
     app.use(router.routes());
 
-    // await db.dropDatabase();
-    // const admin = await AutUser.findOneOrCreate(AutUserModel, {
-    //     studentNumber: "9531815",
-    //     autMail: "parsaenami"
-    // });
-    // admin.isGraduating = true;
-    // admin.isAdmin = true;
-    // admin.save();
+    await db.dropDatabase();
+    const admin = await AutUser.findOneOrCreate(AutUserModel, {
+        studentNumber: "9531815",
+        autMail: "parsaenami"
+    });
+    admin.isGraduating = true;
+    admin.isAdmin = true;
+    admin.save();
     
 
-    // const commenter = await AutUser.findOneOrCreate(AutUserModel, {
-    //     studentNumber: "9531012",
-    //     autMail: "ashkan",
-    // });
+    const commenter = await AutUser.findOneOrCreate(AutUserModel, {
+        studentNumber: "9531012",
+        autMail: "ashkan",
+    });
 
-    // commenter.isGraduating = true;
-    // commenter.save();
+    commenter.isGraduating = true;
+    commenter.save();
 
-    // if (admin) {
-    //     console.log(admin.studentNumber);
-    //     console.log(commenter);
-    // }
+    if (admin) {
+        console.log(admin.studentNumber);
+        console.log(commenter);
+    }
     console.log((await db).modelNames());
     fs.writeFileSync("schema.gql", printSchema(schema));
     // console.log(printSchema(schema));

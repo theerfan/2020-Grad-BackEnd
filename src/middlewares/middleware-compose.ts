@@ -2,7 +2,7 @@ import * as compose from 'koa-compose';
 // import * as cors from 'koa-cors';
 import * as bodyParser from 'koa-bodyparser';
 import * as logger from 'koa-logger';
-import { authorize } from './user-auth';
+// import { authorize } from './user-auth';
 
 // const options = {
 //     origin: '*'
@@ -13,6 +13,6 @@ export function middlewares() {
         logger(),
         // cors(options),
         bodyParser(),
-        authorize
+        // authorize
     ]);
 };

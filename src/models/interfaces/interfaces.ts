@@ -1,3 +1,4 @@
+
 export interface AutUserCond {
     studentNumber?: string,
     autMail?: string

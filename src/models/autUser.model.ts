@@ -1,9 +1,10 @@
-import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass, ReturnModelType, DocumentType } from '@typegoose/typegoose';
+import { prop as Property, Ref, arrayProp as arrayProperty, getModelForClass } from '@typegoose/typegoose';
 import { trim, nullable } from '../constants/typeql';
 import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
 import { ObjectType, Field } from "type-graphql";
+import {findOneOrCreateGenerator} from "./generators/findOneOrCreate.generator";
 import { AutUserCond } from './interfaces/interfaces';
 
 @ObjectType()
@@ -77,15 +78,7 @@ export class AutUser extends User {
     @arrayProperty({ itemsRef: "Answer", default: [] })
     public answersGiven!: Ref<Answer>;
 
-    // Typescript didn't accept the following line which strikes me as odd, keeping it here for further examination.
-    // this: ReturnModelType<typeof AutUser>
-    public static async findOneOrCreate(
-        thisModel: ReturnModelType<typeof AutUser, unknown>,
-        condition: AutUserCond
-    ): Promise<DocumentType<AutUser>> {
-        const one = await thisModel.findOne(condition);
-        return one || await thisModel.create(condition);
-    }
+    public static findOneOrCreate = findOneOrCreateGenerator<AutUser, AutUserCond>();
 }
 
 export const AutUserModel = getModelForClass(AutUser, {
