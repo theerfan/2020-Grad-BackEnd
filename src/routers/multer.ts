@@ -2,8 +2,8 @@ import * as Router from '@koa/router';
 import * as Multer from '@koa/multer';
 import * as fsPath from 'path';
 import { ImageModel } from '../models/image.model';
-import { AutUserModel } from '../models/autUser.model';
 import { unlink } from 'fs';
+import { authorize } from '../middlewares/user-auth';
 
 const generateFileName = (file: Multer.File) => {
     const randStr = Math.random().toString(36).substr(2, 5);
@@ -25,6 +25,7 @@ const storage = Multer.diskStorage({
 
 
 export const router = new Router();
+
 const upload = Multer({
     // dest: 'images/',
     storage,
@@ -44,9 +45,10 @@ router.post(
     '/upload_profile_picture',
     upload.single('picture'),
     async (ctx) => {
+        const user = await authorize(ctx);
+        console.log("o")
+        console.log(ctx.state);      
 
-        const studentNumber = ctx.request.body.studentNumber;
-        const user = await AutUserModel.findOne({ studentNumber });
         const path = ctx.file.path;
         if (user) {
             const previousPic = await ImageModel.findById(user.profilePicture);
@@ -63,7 +65,7 @@ router.post(
                 user.profilePicture = newPic._id;
                 await user.save();
                 ctx.status = 200;
-                ctx.message = "Successfully added image";
+                ctx.message = "Successfully added image"
             }
         }
         else {
@@ -83,6 +85,7 @@ router.post(
         },
     ]),
     async (ctx) => {
+        await authorize(ctx);
         const res = [];
         const files = (ctx.files as any).comment_pics;
         for (const file of files)

@@ -34,7 +34,7 @@ export class AutUserResolver {
             const token = jwt.sign({ id: user._id }, jwtConfig.secret, {
                 expiresIn: jwtConfig.expirePeriod
             });
-            ctx.set('authentication', token);
+            ctx.res.setHeader('Authorization', `Bearer ${token}`);
             return usr;
         }
         throw Error ("Problem with aut login");

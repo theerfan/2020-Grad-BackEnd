@@ -5,6 +5,7 @@ import { AnswerModel } from "../../../models/answer.model";
 
 @Resolver()
 export class AdminQuestionResolver {
+    // @Auth
     @Mutation(returns => Question)
     async addQuestion(
         @Arg("phrase") phrase: string

@@ -1,7 +1,9 @@
 import * as jwt from 'jsonwebtoken';
 import * as config from '../config/config';
-import { Next, Context } from 'koa';
-import { AutUserModel } from '../models/autUser.model';
+import { Context } from 'koa';
+import { AutUserModel, AutUser } from '../models/autUser.model';
+import { DocumentType } from '@typegoose/typegoose';
+import { resolve } from 'dns';
 
 const jwtConfig = config.config.jwt;
 
@@ -12,31 +14,23 @@ function unallowedResponse(statusCode: number, message: string, auth?: boolean) 
     };
 }
 
-export function authorize(ctx: Context, next: Next) {
+export async function authorize(ctx: Context): Promise<DocumentType<AutUser> | null> {
     let token;
     try {
         // Trim out the bearer text using substring
         token = ctx.get('Authorization').substring(7);
-        console.log(token);
     } catch (error) {
-        return ctx.body = unallowedResponse(400, "No token provided");
+        ctx.body = unallowedResponse(400, "No token provided");
     }
 
     if (!token) {
-        return ctx.body = unallowedResponse(400, "No token provided");
+        ctx.body = unallowedResponse(400, "No token provided");
+        return null;
     }
-    jwt.verify(token, jwtConfig.secret, (err: Error, decoded: any) => {
-        if (err)
-            return ctx.body = unallowedResponse(401, "Failed to authenticate token.", false);
-        AutUserModel.findById(decoded.id, (err2: any, usr: any) => {
-            if (err2 || !usr) {
-                return ctx.body = unallowedResponse(500, "Internal server problem.", false);
-            }
-            ctx.user = usr;
-            return next();
-        })
-        return;
-    });
-    return;
+
+    const decoded = jwt.verify(token, jwtConfig.secret) as any;
+    console.log(decoded);
+    return await AutUserModel.findById(decoded.id);
+
 }
 

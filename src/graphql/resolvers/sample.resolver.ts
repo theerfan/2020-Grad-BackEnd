@@ -10,8 +10,8 @@ export class ImageResolver {
   @Mutation(returns => Image)
   async addImage(
     @Arg("path") path: string,
-    @Arg("alternateText", {nullable: true}) alternateText: string,
-    @Arg("hasThumbnail", {nullable: true}) hasThumbnail: boolean
+    @Arg("alternateText", { nullable: true }) alternateText: string,
+    @Arg("hasThumbnail", { nullable: true }) hasThumbnail: boolean
   ): Promise<Image | undefined> {
     const newImage = await createNewImage({
       path,
@@ -23,7 +23,7 @@ export class ImageResolver {
   }
 
   @Authorized()
-  @Query(returns  => [Image])
+  @Query(returns => [Image])
   async allImages(): Promise<Image[]> {
     return await ImageModel.find({});
   }

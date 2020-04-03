@@ -4,7 +4,7 @@ import { Answer } from './answer.model';
 import { db } from '../database/connect';
 import { User } from './user.model';
 import { ObjectType, Field } from "type-graphql";
-import {findOneOrCreateGenerator} from "./generators/findOneOrCreate.generator";
+import {findOneOrCreateGenerator} from "./generators/generators";
 import { AutUserCond } from './interfaces/interfaces';
 
 @ObjectType()

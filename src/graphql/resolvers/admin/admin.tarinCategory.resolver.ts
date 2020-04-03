@@ -1,8 +1,9 @@
-import { Resolver, Arg, Mutation } from "type-graphql";
+import { Resolver, Arg, Mutation, Authorized } from "type-graphql";
 import { TarinCategoryModel, TarinCategory } from "../../../models/tarinCategory.model";
 
 @Resolver()
 export class AdminTarinCategoryResolver {
+    @Authorized()
     @Mutation(returns => TarinCategory)
     async addTarinCategory(
         @Arg("title")

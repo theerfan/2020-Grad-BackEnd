@@ -18,6 +18,8 @@ export const authChecker: AuthChecker<Context> = (
     { root, args, context, info },
     roles
 ) => {
+    if (roles.length === 0)
+        return true;
     let token;
     try {
         // Trim out the bearer text using substring
@@ -27,7 +29,6 @@ export const authChecker: AuthChecker<Context> = (
         context.body = unallowedResponse(400, "No token provided");
         return false;
     }
-
     if (!token) {
         context.body = unallowedResponse(400, "No token provided");
         return false;
