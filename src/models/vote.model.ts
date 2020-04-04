@@ -3,6 +3,9 @@ import { TarinCategory } from './tarinCategory.model';
 import { db } from '../database/connect';
 import { ObjectType, Field } from "type-graphql";
 import { AutUser } from './autUser.model';
+import { findOneOrCreateGenerator } from './generators/generators';
+import { VoteCond } from './interfaces/interfaces';
+
 
 @ObjectType()
 @index({ category: 1, sender: 1, target: 1 }, { unique: true }) // Unique together
@@ -19,6 +22,8 @@ export class Vote {
     @Field(type => AutUser)
     @Property({ ref: "AutUser", required: true })
     public target!: Ref<AutUser>;
+
+    public static findOneOrCreate = findOneOrCreateGenerator<Vote, VoteCond>();
 
 }
 

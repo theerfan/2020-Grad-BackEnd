@@ -1,7 +1,9 @@
-import { Resolver, Query, Arg, ObjectType, Field } from "type-graphql";
+import { Resolver, Query, Arg, ObjectType, Field, Authorized } from "type-graphql";
 import { Vote, VoteModel } from "../../../models/vote.model";
 import { AutUserModel } from "../../../models/autUser.model";
 import { TarinCategoryModel } from "../../../models/tarinCategory.model";
+import { roles } from "../../../constants/typeql";
+
 
 @ObjectType()
 export class TopVotedResult {
@@ -16,6 +18,7 @@ export class TopVotedResult {
 
 @Resolver()
 export class AdminVoteResolver {
+    @Authorized(roles.Admin)
     @Query(returns => Vote)
     async allVotesByUser(
         @Arg("user")
@@ -26,7 +29,8 @@ export class AdminVoteResolver {
         }
         throw Error("Sender doesn't exist.");
     }
-
+    
+    @Authorized(roles.Admin)
     @Query(returns => [TopVotedResult])
     async topVotesOfCategory(
         @Arg("category")

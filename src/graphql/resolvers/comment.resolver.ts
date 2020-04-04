@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query, ID, Ctx } from 'type-graphql';
+import { Resolver, Mutation, Arg, Query, ID, Ctx, Authorized } from 'type-graphql';
 import { Comment, CommentModel } from '../../models/comment.model';
 import { AutUserModel } from '../../models/autUser.model';
 import { Schema } from 'mongoose';
@@ -21,6 +21,7 @@ export class CommentResolver {
         throw new Error("User not found");
     }
 
+    @Authorized()
     @Mutation(returns => Comment)
     async addCommentForUser(
         @Arg("text") text: string,

@@ -21,4 +21,5 @@ export abstract class User extends defaultClasses.FindOrCreate {
     @Property({ ref: "Image" })
     public profilePicture?: Ref<Image>;
 
+
 }

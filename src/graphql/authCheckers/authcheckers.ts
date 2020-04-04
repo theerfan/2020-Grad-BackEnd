@@ -1,52 +1,26 @@
 import { AuthChecker } from "type-graphql";
-import * as jwt from 'jsonwebtoken';
-import * as config from '../../config/config';
-import { Context } from 'koa';
-import { AutUserModel } from '../../models/autUser.model';
-
-const jwtConfig = config.config.jwt;
-
-function unallowedResponse(statusCode: number, message: string, auth?: boolean) {
-    return {
-        status: statusCode,
-        json: { message, auth }
-    };
-}
+// import { Context } from 'koa';
+// import { authorize } from "../../middlewares/user-auth";
+// import { roles } from "../../constants/typeql";
 
 
-export const authChecker: AuthChecker<Context> = (
-    { root, args, context, info },
-    roles
+export const authChecker: AuthChecker<any> = async (
+    // { root, args, context, info },
+    { context },
+    currentQueryRoles
 ) => {
-    if (roles.length === 0)
-        return true;
-    let token;
-    try {
-        // Trim out the bearer text using substring
-        token = context.get('Authorization').substring(7);
-        console.log(token);
-    } catch (error) {
-        context.body = unallowedResponse(400, "No token provided");
-        return false;
-    }
-    if (!token) {
-        context.body = unallowedResponse(400, "No token provided");
-        return false;
-    }
-    jwt.verify(token, jwtConfig.secret, (err: Error, decoded: any) => {
-        if (err) {
-            context.body = unallowedResponse(401, "Failed to authenticate token.");
-            return false;
-        }
-        AutUserModel.findById(decoded.id, (err2: Error, usr: any) => {
-            if (err2 || !usr) {
-                context.body = unallowedResponse(500, "Internal server problem.", false);
-                return false;
-            }
-            context.user = usr;
-            return true;
-        })
-        return false;
-    });
-    return false;
+
+    return true;
+    // if (currentQueryRoles.length === 0)
+    //     return true;
+
+    // // This is done because the middleware won't actually go before the authChecker, weird, huh?
+    // const user = await authorize(context.ctx);
+    // if (currentQueryRoles.includes(roles.Admin))
+    //     if (user)
+    //         return user?.isAdmin;
+    // if (user)
+    //     return true;
+    
+    // return false;
 }

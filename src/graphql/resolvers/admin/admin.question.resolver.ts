@@ -1,18 +1,35 @@
-import { Resolver, Arg, Mutation } from "type-graphql";
+import { Resolver, Arg, Mutation, Authorized } from "type-graphql";
 import { Question, QuestionModel } from "../../../models/question.model";
 import { AnswerModel } from "../../../models/answer.model";
+import { roles } from "../../../constants/typeql";
 
+
+// export const resolveUser: MiddlewareFn = async({ context }, next) => {
+//     console.log(context.ctx);
+// };
 
 @Resolver()
 export class AdminQuestionResolver {
-    // @Auth
+
+    // @UseMiddleware(resolveUser)
+    @Authorized(roles.Admin)
     @Mutation(returns => Question)
     async addQuestion(
         @Arg("phrase") phrase: string
     ): Promise<Question> {
-        return QuestionModel.create({ phrase });
+        console.log("made it here");
+        const q = await Question.findOneOrCreate(QuestionModel, { phrase });
+        console.log("def here");
+        if (q) {
+            console.log("also here");
+            console.log(q);
+            return q;
+        }
+        console.log("waywhat")
+        throw Error ("wtf");
     }
 
+    @Authorized(roles.Admin)
     @Mutation(returns => Question)
     async editQuestion(
         @Arg("old") old: string,
@@ -28,6 +45,7 @@ export class AdminQuestionResolver {
         throw Error("Question not found");
     }
 
+    @Authorized(roles.Admin)
     async deleteQuestion(
         @Arg("question") phrase: string
     ): Promise<Question> {

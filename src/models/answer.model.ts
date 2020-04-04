@@ -31,7 +31,7 @@ export class Answer {
                 "question": ques
             });
         }
-        throw Error ("something went wrong");
+        throw Error("something went wrong");
     }
 }
 

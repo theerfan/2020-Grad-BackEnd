@@ -45,7 +45,6 @@ export class AutUserResolver {
     // @Mutation(returns => AutUser)
     // async editProfile(): Promise<AutUser> {}
 
-
     @Query(returns => AutUser)
     async getAllGraduating(): Promise<AutUser[]>
     {

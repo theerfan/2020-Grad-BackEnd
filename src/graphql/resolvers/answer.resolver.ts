@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query, Ctx } from "type-graphql";
+import { Resolver, Mutation, Arg, Query, Ctx, Authorized } from "type-graphql";
 import { Answer, AnswerModel } from "../../models/answer.model";
 import { QuestionModel } from "../../models/question.model";
 import { AutUserModel } from "../../models/autUser.model";
@@ -8,6 +8,7 @@ import { Context } from "koa";
 @Resolver()
 export class AnswerResolver {
 
+    @Authorized()
     @Mutation(returns => Answer)
     async giveAnswer(
         @Arg("question") phrase: string,

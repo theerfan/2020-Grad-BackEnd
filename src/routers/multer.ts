@@ -45,10 +45,8 @@ router.post(
     '/upload_profile_picture',
     upload.single('picture'),
     async (ctx) => {
-        const user = await authorize(ctx);
-        console.log("o")
-        console.log(ctx.state);      
-
+        await authorize(ctx);
+        const user = ctx.state.user;
         const path = ctx.file.path;
         if (user) {
             const previousPic = await ImageModel.findById(user.profilePicture);
