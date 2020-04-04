@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query, ID, Ctx, Authorized } from 'type-graphql';
+import { Resolver, Mutation, Arg, ID, Ctx, Authorized } from 'type-graphql';
 import { Comment, CommentModel } from '../../models/comment.model';
 import { AutUserModel } from '../../models/autUser.model';
 import { Schema } from 'mongoose';
@@ -7,19 +7,6 @@ import { Context } from 'koa';
 
 @Resolver(of => Comment)
 export class CommentResolver {
-
-    @Query(returns => [Comment])
-    async getCommentsForUser(
-        @Arg("studentNumber") studentNumber: string
-    ): Promise<Comment[]> {
-        const user = await AutUserModel.findOne({ studentNumber });
-        if (user) {
-            return CommentModel.find({
-                receiver: user._id
-            });
-        }
-        throw new Error("User not found");
-    }
 
     @Authorized()
     @Mutation(returns => Comment)

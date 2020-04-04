@@ -14,35 +14,16 @@ export class AdminQuestionResolver {
     // @UseMiddleware(resolveUser)
     @Authorized(roles.Admin)
     @Mutation(returns => Question)
-    async addQuestion(
-        @Arg("phrase") phrase: string
-    ): Promise<Question> {
-        console.log("made it here");
-        const q = await Question.findOneOrCreate(QuestionModel, { phrase });
-        console.log("def here");
-        if (q) {
-            console.log("also here");
-            console.log(q);
-            return q;
-        }
-        console.log("waywhat")
-        throw Error ("wtf");
-    }
-
-    @Authorized(roles.Admin)
-    @Mutation(returns => Question)
-    async editQuestion(
+    async addOrChangeQuestion(
+        @Arg("phrase") phrase: string,
         @Arg("old") old: string,
-        @Arg("new") newQ: string
     ): Promise<Question> {
-        const oldQu = await QuestionModel.findOne({
-            "phrase": old
-        });
-        if (oldQu) {
-            oldQu.phrase = newQ;
-            return await oldQu.save();
+        if (old) {
+            const updated = await QuestionModel.findOneAndUpdate({ phrase: old }, { phrase });
+            if (updated)
+                return updated;
         }
-        throw Error("Question not found");
+        return await Question.findOneOrCreate(QuestionModel, { phrase });
     }
 
     @Authorized(roles.Admin)

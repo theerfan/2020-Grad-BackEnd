@@ -47,16 +47,12 @@ export class AutUserResolver {
     // @Mutation(returns => AutUser)
     // async editProfile(): Promise<AutUser> {}
 
-    @Query(returns => [AutUser], {nullable: true})
+    @Query(returns => [AutUser])
     async getAllGraduating(): Promise<AutUser[]>
     {
-        return [];
-        // const a = await AutUserModel.find({
-        //     isGraduating: true
-        // });
-
-        // console.log(a)
-        // return a;
+        return await AutUserModel.find({
+            isGraduating: true
+        });
     }
 
     @Query(returns => AutUser)

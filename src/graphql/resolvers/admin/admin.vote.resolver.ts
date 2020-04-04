@@ -15,20 +15,21 @@ export async function topOfSingleCategory(limit: Number, checked?: boolean, titl
     if (category) {
         const votes = await VoteModel.find({ category }).populate("target");
         if (votes) {
+            const autUserCollectName = AutUserModel.collection.name;
             const voteQuery = (await VoteModel.aggregate([
                 { "$match": { category: category._id } },
                 {
                     "$facet": {
                         "totalVotesForCategory": [{ "$count": "total" }],
                         "highestVotedForCategory": [
-                            { $lookup: { from: 'autusers', localField: 'target', foreignField: '_id', as: 'users' } },
+                            { $lookup: { from: autUserCollectName, localField: 'target', foreignField: '_id', as: 'users' } },
                             {
                                 "$group": {
                                     _id: { "user": "$target" },
                                     count: { "$sum": 1 },
                                 }
                             },
-                            { $lookup: { from: 'autusers', localField: '_id.user', foreignField: '_id', as: 'users' } },
+                            { $lookup: { from: autUserCollectName, localField: '_id.user', foreignField: '_id', as: 'users' } },
                             { $sort: { count: -1 } },
                             { $limit: limit },
                         ]

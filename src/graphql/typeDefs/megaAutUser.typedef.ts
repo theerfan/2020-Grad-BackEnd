@@ -17,4 +17,11 @@ export class MegaAutUser {
 
     @Field(type => [QuestionAnswer])
     answersToQuestions: QuestionAnswer[];
+
+    constructor(user: AutUser, votedCategories: TarinCategory[], commentsForUser: Comment[], answersToQuestions: QuestionAnswer[]) {
+        this.user = user;
+        this.votedCategories = votedCategories;
+        this.commentsForUser = commentsForUser;
+        this.answersToQuestions = answersToQuestions;
+    }
 }
