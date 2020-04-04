@@ -1,3 +1,6 @@
+import { TarinCategory } from "../tarinCategory.model";
+import { Ref } from '@typegoose/typegoose';
+import { AutUser } from "../autUser.model";
 
 export interface AutUserCond {
     studentNumber?: string,
@@ -13,9 +16,9 @@ export interface QuestionCond {
 }
 
 export interface VoteCond {
-    category?: string,
-    caster?: string,
-    target?: string
+    category?: Ref<TarinCategory>,
+    caster?: Ref<AutUser>,
+    target?: Ref<AutUser>
 }
 
 export interface CommentCond {

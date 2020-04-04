@@ -14,9 +14,9 @@ export class VoteResolver {
         @Arg("target") studentNumber: string,
         @Ctx("ctx") ctx: Context
     ): Promise<Vote> {
-        const category = (await TarinCategoryModel.findOne({ title }))?.id;
+        const category = await TarinCategoryModel.findOne({ title });
         const caster = ctx.user;
-        const target = (await AutUserModel.findOne({ studentNumber }))?.id;
+        const target = await AutUserModel.findOne({ studentNumber });
         if (category && caster && target) {
             if (target.isGraduating)
                 return await Vote.findOneOrCreate(VoteModel, { category, caster, target });

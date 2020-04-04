@@ -2,7 +2,7 @@ import { Resolver, Mutation, Arg, Query, Ctx, Authorized } from "type-graphql";
 import { Answer, AnswerModel } from "../../models/answer.model";
 import { QuestionModel } from "../../models/question.model";
 import { AutUserModel } from "../../models/autUser.model";
-import { QuestionAnswer } from "../typeDefs/questionAnswer";
+import { QuestionAnswer } from "../typeDefs/questionAnswer.typedef";
 import { Context } from "koa";
 
 @Resolver()
