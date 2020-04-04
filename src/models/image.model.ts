@@ -8,8 +8,8 @@ import { unlink } from 'fs';
 export class Image {
 
     @Field()
-    @Property({ trim: true, unique: true })
-    public path!: string;
+    @Property({ trim: true, unique: true, default: null })
+    public path?: string;
 
     @Field(nullable)
     @Property(trim)
@@ -23,7 +23,7 @@ export class Image {
         thisModel: ReturnModelType<typeof Image, unknown>,
         condition: Ref<Image>) {
         const one = await thisModel.findById(condition);
-        if (one) {
+        if (one?.path) {
             unlink(one.path, () => { });
             await one.remove();
         }

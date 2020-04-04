@@ -76,7 +76,7 @@ export class AdminVoteResolver {
         @Arg("category") title: string,
         @Arg("limit") limit: number
     ): Promise<TopVotedResult[]> {
-        return topOfSingleCategory(title, limit);
+        return topOfSingleCategory(limit, undefined, title);
     }
 
     @Authorized(roles.Admin)

@@ -50,7 +50,7 @@ router.post(
         const path = ctx.file.path;
         if (user) {
             const previousPic = await ImageModel.findById(user.profilePicture);
-            if (previousPic) {
+            if (previousPic?.path) {
                 unlink(previousPic.path, () => {
                     console.log("Successfully deleted old file.");
                 });

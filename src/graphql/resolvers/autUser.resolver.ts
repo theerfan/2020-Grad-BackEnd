@@ -7,7 +7,7 @@ import { DocumentType } from '@typegoose/typegoose';
 import * as configFile from '../../config/config';
 import { Context } from "koa";
 // import { TarinCategory } from "src/models/tarinCategory.model";
-import { UserAndItsVotedCategories } from "../typeDefs/userAndItsVotedCategories.typedef";
+// import { UserAndItsVotedCategories } from "../typeDefs/userAndItsVotedCategories.typedef";
 
 const jwtConfig = configFile.config.jwt;
 
@@ -60,19 +60,20 @@ export class AutUserResolver {
         @Arg("studentNumber") studentNumber: string
     ): Promise<AutUser> {
         const user = await AutUserModel.findOne({studentNumber});
+        console.log(user);
         if (user?.isGraduating)
             return user;
         throw Error ("Unfelan user");
     }
 
-    @Query(returns => UserAndItsVotedCategories)
-    async getVotedCategoriesForUser(
-        @Arg("studentNumber") studentNumber: string
-    ): Promise<UserAndItsVotedCategories> {
-        const user = await AutUserModel.findOne({studentNumber});
-        AutUserModel.aggregate
-        if (user?.isGraduating)
-            return user;
-        throw Error ("Unfelan user");
-    }
+    // @Query(returns => UserAndItsVotedCategories)
+    // async getVotedCategoriesForUser(
+    //     @Arg("studentNumber") studentNumber: string
+    // ): Promise<UserAndItsVotedCategories> {
+    //     const user = await AutUserModel.findOne({studentNumber});
+    //     AutUserModel.aggregate
+    //     if (user?.isGraduating)
+    //         return user;
+    //     throw Error ("Unfelan user");
+    // }
 }

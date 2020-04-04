@@ -29,7 +29,7 @@ export class CommentResolver {
         @Arg("picturePaths", type => [String]) picturePaths: string[],
         @Ctx("ctx") ctx: Context
     ): Promise<Comment> {
-        const receiver = await AutUserModel.findOne({ studentNumber: receiverNumber }));
+        const receiver = await AutUserModel.findOne({ studentNumber: receiverNumber });
         const images = (await AutUserModel.find().where('path').in(picturePaths).select('_id').exec()).flat();
         return await CommentModel.create({
             text,
