@@ -8,9 +8,9 @@ export class QuestionAnswer {
     @Field()
     public answer: string;
 
-    constructor(q: string, a: string)
+    constructor(question: string, answer: string)
     {
-        this.question = q;
-        this.answer = a;
+        this.question = question;
+        this.answer = answer;
     }
 }

@@ -41,11 +41,13 @@ export class AutUserDummyResolver {
     // async editProfile(): Promise<AutUser> {}
 
 
-    @Query(returns => AutUser)
+    @Query(returns => [AutUser])
     async getAllGraduating(): Promise<AutUser[]> {
-        return await AutUserModel.find({
+        const a =  await AutUserModel.find({
             isGraduating: true
         });
+        console.log(a);
+        return a;
     }
 
     @Query(returns => AutUser)
@@ -53,6 +55,7 @@ export class AutUserDummyResolver {
         @Arg("studentNumber") studentNumber: string
     ): Promise<AutUser> {
         const user = await AutUserModel.findOne({ studentNumber });
+        console.log(user);
         if (user?.isGraduating)
             return user;
         throw Error("Unfelan user");

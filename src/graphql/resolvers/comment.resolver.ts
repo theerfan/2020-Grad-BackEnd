@@ -44,10 +44,8 @@ export class CommentResolver {
         @Arg("id", type => ID) id: Schema.Types.ObjectId
     ): Promise<Comment> {
         const comment = await CommentModel.findByIdAndDelete(id);
-        if (comment) {
-            if (comment?.images) {
-                Image.findByMultipleIdsAndDeleteAndRemoveFiles(ImageModel, comment.images);
-            }
+        if (comment?.images) {
+            Image.findByMultipleIdsAndDeleteAndRemoveFiles(ImageModel, comment.images);
             return comment;
         }
         throw new Error("Comment not found asan!");

@@ -5,11 +5,11 @@ import {ObjectType, Field} from "type-graphql";
 @ObjectType()
 export abstract class User {
 
-    @Field()
+    @Field(type => String!)
     @Property({trim: true, default: ""})
     public firstName!: string;
 
-    @Field()
+    @Field(type => String!)
     @Property({trim: true, default: ""})
     public lastName!: string;
 

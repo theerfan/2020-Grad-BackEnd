@@ -33,22 +33,20 @@ export class AnswerResolver {
     ): Promise<QuestionAnswer[]> {
         const list: QuestionAnswer[] = [];
         const user = await AutUserModel.findOne({ studentNumber });
-        if (user) {
-            if (user.answersGiven) {
-                const castArray = user.answersGiven as any;
-                // tslint:disable-next-line: prefer-for-of
-                for (let i = 0; i < castArray.length; i++) {
-                    const answer = castArray[i].text;
-                    const question = castArray[i].question;
-                    const questionGiven = await QuestionModel.findOne({ question });
-                    if (questionGiven) {
-                        list.push(
-                            new QuestionAnswer(questionGiven.phrase, answer)
-                        )
-                    }
+        if (user?.answersGiven) {
+            const castArray = user.answersGiven as any;
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < castArray.length; i++) {
+                const answer = castArray[i].text;
+                const question = castArray[i].question;
+                const questionGiven = await QuestionModel.findOne({ question });
+                if (questionGiven) {
+                    list.push(
+                        new QuestionAnswer(questionGiven.phrase, answer)
+                    )
                 }
-                return list;
             }
+            return list;
         }
         throw Error("something went wrong!");
         // return new QuestionAnswer();

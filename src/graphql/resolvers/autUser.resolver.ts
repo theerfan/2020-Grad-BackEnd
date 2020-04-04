@@ -47,12 +47,16 @@ export class AutUserResolver {
     // @Mutation(returns => AutUser)
     // async editProfile(): Promise<AutUser> {}
 
-    @Query(returns => AutUser)
+    @Query(returns => [AutUser], {nullable: true})
     async getAllGraduating(): Promise<AutUser[]>
     {
-        return await AutUserModel.find({
-            isGraduating: true
-        });
+        return [];
+        // const a = await AutUserModel.find({
+        //     isGraduating: true
+        // });
+
+        // console.log(a)
+        // return a;
     }
 
     @Query(returns => AutUser)
@@ -60,7 +64,6 @@ export class AutUserResolver {
         @Arg("studentNumber") studentNumber: string
     ): Promise<AutUser> {
         const user = await AutUserModel.findOne({studentNumber});
-        console.log(user);
         if (user?.isGraduating)
             return user;
         throw Error ("Unfelan user");
