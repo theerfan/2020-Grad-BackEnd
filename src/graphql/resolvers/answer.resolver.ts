@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Arg, Query, Ctx, Authorized } from "type-graphql";
+import { Resolver, Mutation, Arg, Ctx, Authorized } from "type-graphql";
 import { Answer, AnswerModel } from "../../models/answer.model";
 import { QuestionModel } from "../../models/question.model";
 import { AutUserModel } from "../../models/autUser.model";

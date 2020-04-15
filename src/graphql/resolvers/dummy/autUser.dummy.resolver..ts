@@ -10,8 +10,8 @@ import { MegaAutUser } from "../../typeDefs/megaAutUser.typedef";
 import { QuestionAnswer } from "../../typeDefs/questionAnswer.typedef";
 import { QuestionModel } from "../../../models/question.model";
 import { CommentModel } from "../../../models/comment.model";
-import { VoteModel, Vote } from "src/models/vote.model";
-import { TarinCategoryModel, TarinCategory } from "src/models/tarinCategory.model";
+import { VoteModel } from "../../../models/vote.model";
+import { TarinCategoryModel, TarinCategory } from "../../../models/tarinCategory.model";
 
 const jwtConfig = configFile.config.jwt;
 

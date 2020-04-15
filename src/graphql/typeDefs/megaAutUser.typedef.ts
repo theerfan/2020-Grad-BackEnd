@@ -1,7 +1,7 @@
-import { AutUser } from "src/models/autUser.model";
+import { AutUser } from "../../models/autUser.model";
 import { Field, ObjectType } from "type-graphql";
-import { TarinCategory } from "src/models/tarinCategory.model";
-import { Comment } from "src/models/comment.model";
+import { TarinCategory } from "../../models/tarinCategory.model";
+import { Comment } from "../../models/comment.model";
 import { QuestionAnswer } from "./questionAnswer.typedef";
 
 @ObjectType()
