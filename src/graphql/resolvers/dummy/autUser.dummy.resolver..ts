@@ -36,6 +36,7 @@ export class AutUserDummyResolver {
             });
             console.log(user._id);
             ctx.res.setHeader('Authorization', `Bearer ${token}`);
+            ctx.res.setHeader('Access-Control-Expose-Headers', 'Authorization');
             return usr;
         }
         throw Error("Problem with aut login");
