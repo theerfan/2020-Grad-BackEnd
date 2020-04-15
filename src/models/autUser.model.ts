@@ -76,7 +76,7 @@ export class AutUser extends User {
 
     @Field(type => [Answer])
     @arrayProperty({ itemsRef: "Answer", default: [] })
-    public answersGiven!: Ref<Answer>;
+    public answersGiven!: Ref<Answer>[];
 
     public static findOneOrCreate = findOneOrCreateGenerator<AutUser, AutUserCond>();
 }

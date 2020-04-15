@@ -53,7 +53,7 @@ export class AutUserDummyResolver {
         });
     }
 
-    @Query(returns => AutUser)
+    @Query(returns => MegaAutUser)
     async getSingleUser(
         @Arg("studentNumber") studentNumber: string
     ): Promise<MegaAutUser> {
@@ -61,7 +61,7 @@ export class AutUserDummyResolver {
         const user = await AutUserModel.findOne({ studentNumber });
         if (user?.isGraduating) {
             const commentList = await CommentModel.find({ receiver: user._id });
-            if (user.answersGiven) {
+            if (user.answersGiven && user.answersGiven.length) {
                 const castArray = user.answersGiven as any;
                 // tslint:disable-next-line: prefer-for-of
                 for (let i = 0; i < castArray.length; i++) {
