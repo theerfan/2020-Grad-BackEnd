@@ -28,7 +28,7 @@
     "@types/passport-jwt": "^3.0.3",
     "apollo-server-koa": "^2.11.0",
     "apollo-server-types": "^0.3.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "dotenv": "^8.2.0",
     "formidable": "^1.2.2",
     "graphql": "^14.6.0",
